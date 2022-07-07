@@ -3,10 +3,8 @@ import numpy as np
 import matlab as lab
 import matlab.engine as gin
 
-eng = gin.start_matlab()
-
-# Change path location to where you have the matlab code saved
-eng.addpath(eng.genpath('../LeRubik/'))
+## File paths ##
+dataPath = '../LeRubik/'     # Path location to where you have the matlab code saved
 savePath = './Data/'     # Path to where to save data
 saveData = 2     # 0 - do not save anything, 1 - save stats, 
                  # 2 - save stats and signals, 3 - save stats, signals, and record
@@ -29,14 +27,18 @@ angleMode = 'random'     # Mode of specifying initial angle
 x = (0., 0.5*height, 0.)     # Cylindrical coordinates of sampling point (r, z, phi)
 
 ## Overwriting material properties ##
-overwrite = True     # False for default properties, True to change anything
+overwrite = False     # False for default properties, True to change anything
 owProperties = {
-    'si' : {'reflectivity' : 0.1},
-    'vikuitilar' : {'reflectivity' : 0.5}
+    'si' : {'reflectivity' : 0.01},
+    'vikuitilar' : {'reflectivity' : 0.99}
 }
 
 # DO NOT MAKE CHANGES BELOW #
 ################################################################
+
+eng = gin.start_matlab()
+eng.clear(nargout=0)
+eng.addpath(eng.genpath(dataPath))
 
 detector = {}; sampling = {}; materials = {}; parameters = {}; pos = {}
 
@@ -51,13 +53,15 @@ materials['temperature'] = temperature
 materials['fluid'] = medium
 
 detector['materials'] = eng.DefaultMaterials(materials)
-for key, value in owProperties.items():
-    for k2, v2 in value.items():
-        dex = round(detector['materials']['surfaces']['indices'][key])
-        detector['materials']['surfaces'][k2][1][dex]= v2
+if overwrite:
+    for key, value in owProperties.items():
+        for k2, v2 in value.items():
+            dex = round(detector['materials']['surfaces']['indices'][key])-1
+            detector['materials']['surfaces'][k2][1][dex] = v2
 
 detector['geometry'] = eng.eval(geometryFile + '(parameters)')
 detector = eng.ConstructDetector(detector)
+eng.workspace['detector'] = detector
 
 sampling['points'] = {'numphotons' : numPhotons}
 sampling['angle'] = {'mode' : angleMode}
