@@ -63,8 +63,17 @@ pos['omega'] = x[2]
 
 s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
 
-stats, signal = eng.PhotonFollower(s, detector, nargout=2)
-print(stats)
-print(signal)
+stats, signal, record = eng.PhotonFollower(s, detector, nargout=3)
+
+# Function for saving the data files
+def saveFiles(case=0):
+    if case > 0:
+        np.save(savePath + 'stats', stats)
+    if case > 1:
+        np.save(savePath + 'signals', signal)
+    if case > 2:
+        np.save(savePath + 'record', record)
+
+saveFiles(saveData)
 
 eng.quit()
