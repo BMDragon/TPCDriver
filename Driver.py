@@ -7,6 +7,9 @@ eng = gin.start_matlab()
 
 # Change path location to where you have the matlab code saved
 eng.addpath(eng.genpath('../LeRubik/'))
+savePath = './'     # Path to where to save data
+saveData = 2     # 0 - do not save anything, 1 - save stats, 
+                 # 2 - save stats and signals, 3 - save stats, signals, and record
 
 ## Define chamber parameters ##
 height = 0.05     # Height of the TPC
@@ -25,8 +28,12 @@ numPhotons = 100000     # Number of photons to simulate
 angleMode = 'random'     # Mode of specifying initial angle
 x = (0., 0.5*height, 0.)     # Cylindrical coordinates of sampling point (r, z, phi)
 
-# Overwriting material properties
-overwrite = True
+## Overwriting material properties ##
+overwrite = True     # False for default properties, True to change anything
+owProperties = {
+    'si' : {'reflectivity' : 0.1},
+    'vikuitilar' : {'reflectivity' : 0.5}
+}
 
 # DO NOT MAKE CHANGES BELOW #
 ################################################################
