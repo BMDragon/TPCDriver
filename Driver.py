@@ -8,7 +8,7 @@ eng = gin.start_matlab()
 # Change path location to where you have the matlab code saved
 eng.addpath(eng.genpath('../LeRubik/'))
 savePath = './'     # Path to where to save data
-saveData = 1     # 0 - do not save anything, 1 - save stats, 
+saveData = 2     # 0 - do not save anything, 1 - save stats, 
                  # 2 - save stats and signals, 3 - save stats, signals, and record
 
 ## Define chamber parameters ##
@@ -53,8 +53,8 @@ materials['fluid'] = medium
 detector['materials'] = eng.DefaultMaterials(materials)
 for key, value in owProperties.items():
     for k2, v2 in value.items():
-        dex = detector['materials']['surfaces']['indices'][key]
-        detector['materials']['surcafes'][k2][1,dex] = v2
+        dex = round(detector['materials']['surfaces']['indices'][key])
+        detector['materials']['surfaces'][k2][1][dex]= v2
 
 detector['geometry'] = eng.eval(geometryFile + '(parameters)')
 detector = eng.ConstructDetector(detector)
@@ -68,7 +68,7 @@ pos['omega'] = x[2]
 
 s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
 
-stats, signal, record = eng.PhotonFollower(s, detector, nargout=3)
+stats, signal = eng.PhotonFollower(s, detector, nargout=2)
 
 # Function for saving the data files
 def saveFiles(case=0):
@@ -76,8 +76,6 @@ def saveFiles(case=0):
         np.save(savePath + 'stats', stats)
     if case > 1:
         np.save(savePath + 'signals', signal)
-    if case > 2:
-        np.save(savePath + 'record', record)
 
 saveFiles(saveData)
 
