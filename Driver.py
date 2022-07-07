@@ -8,27 +8,25 @@ eng = gin.start_matlab()
 # Change path location to where you have the matlab code saved
 eng.addpath(eng.genpath('../LeRubik/'))
 
-# Define chamber parameters
-height = 0.05
-width = 0.05
-wallShiftEfficiency = 0.8
-sipmShiftEfficiency = 0.9
-plateShiftEfficiency = 0.9
-geometryFile = 'LArTPCCellDefinition'
+## Define chamber parameters ##
+height = 0.05     # Height of the TPC
+width = 0.05     # Width of the TPC
+wallShiftEfficiency = 0.8     # Rate of waveshifting at wall
+sipmShiftEfficiency = 0.9     # Rate of waveshifting at SiPM
+plateShiftEfficiency = 0.9     # Rate of waveshifting at plate
+geometryFile = 'LArTPCCellDefinition'     # Matlab file where the geometry is defined
 
-# Define materials
-temperature = 87.
-medium = 'Ar'
+## Define materials ##
+temperature = 87.     # Temperature of medium
+medium = 'Ar'     # Liquid inside the TPC
 
-# Sampling stats
-numPhotons = 100000
-angleMode = 'random'
-r = 0.
-z = 0.5*height
-phi = 0.
+## Sampling stats ##
+numPhotons = 100000     # Number of photons to simulate
+angleMode = 'random'     # Mode of specifying initial angle
+x = (0., 0.5*height, 0.)     # Cylindrical coordinates of sampling point (r, z, phi)
 
 # Overwriting material properties
-
+overwrite = True
 
 # DO NOT MAKE CHANGES BELOW #
 ################################################################
@@ -52,9 +50,9 @@ detector = eng.ConstructDetector(detector)
 sampling['points'] = {'numphotons' : numPhotons}
 sampling['angle'] = {'mode' : angleMode}
 
-pos['r'] = r
-pos['z'] = z
-pos['omega'] = phi
+pos['r'] = x[0]
+pos['z'] = x[1]
+pos['omega'] = x[2]
 
 s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
 
