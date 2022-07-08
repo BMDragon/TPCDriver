@@ -9,8 +9,8 @@ saveData = 3     # 0 - do not save anything, 1 - save stats,
                  # 2 - save stats and signals, 3 - save stats, signals, and record
 
 ## Define chamber parameters ##
-height = 0.05     # Height of the TPC
-width = 0.05     # Width of the TPC
+height = 0.05     # Distance in m from cathode to anode
+width = 0.05     # Width of the TPC in m
 wallShiftEfficiency = 0.8     # Rate of waveshifting at wall
 sipmShiftEfficiency = 0.9     # Rate of waveshifting at SiPM
 plateShiftEfficiency = 0.9     # Rate of waveshifting at plate
