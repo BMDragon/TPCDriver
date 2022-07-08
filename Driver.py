@@ -1,6 +1,5 @@
 # Created by Brandon Weiss on 7/7/2022
 import numpy as np
-import matlab as lab
 import matlab.engine as gin
 
 ## File paths ##
