@@ -6,7 +6,7 @@ import matlab.engine as gin
 ## File paths ##
 dataPath = '../LeRubik/'     # Path location to where you have the matlab code saved
 savePath = './Data/'     # Path to where to save data
-saveData = 2     # 0 - do not save anything, 1 - save stats, 
+saveData = 3     # 0 - do not save anything, 1 - save stats, 
                  # 2 - save stats and signals, 3 - save stats, signals, and record
 
 ## Define chamber parameters ##
@@ -72,7 +72,7 @@ pos['omega'] = x[2]
 
 s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
 
-stats, signal = eng.PhotonFollower(s, detector, nargout=2)
+stats, signal, fullRecord = eng.PhotonFollower(s, detector, 1, nargout=3)
 
 # Function for saving the data files
 def saveFiles(case=0):
@@ -80,6 +80,8 @@ def saveFiles(case=0):
         np.save(savePath + 'stats', stats)
     if case > 1:
         np.save(savePath + 'signals', signal)
+    if case > 2:
+        np.save(savePath + 'records', fullRecord)
 
 saveFiles(saveData)
 
