@@ -11,9 +11,9 @@ saveData = 3     # 0 - do not save anything, 1 - save stats,
 ## Define chamber parameters ##
 height = 0.05     # Distance in m from cathode to anode
 width = 0.05     # Width of the TPC in m
-wallShiftEfficiency = 0.8     # Rate of waveshifting at wall
-sipmShiftEfficiency = 0.9     # Rate of waveshifting at SiPM
-plateShiftEfficiency = 0.9     # Rate of waveshifting at plate
+wallShiftEfficiency = 1.     # Rate of waveshifting at wall
+sipmShiftEfficiency = 1.     # Rate of waveshifting at SiPM
+plateShiftEfficiency = 1.     # Rate of waveshifting at plate
 geometryFile = 'LArTPCCellDefinition'     # Matlab file where the geometry is defined
 
 ## Define materials ##
