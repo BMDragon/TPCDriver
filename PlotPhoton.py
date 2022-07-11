@@ -6,12 +6,15 @@ record = np.load('./Data/records.npy', allow_pickle=True).item()
 signal = np.load('./Data/signals.npy', allow_pickle=True).item()
 photons = np.array([x+1 for x in range(100000)])
 
+signalColor = '#00CD00'
+scatterColor = '#DD9900'
+absorbColor = '#000000'
+
 for i in range(len(photons)):
     xPos = np.array([0])
     yPos = np.array([0])
     zPos = np.array([0.025])
 
-    shiftDex = 1
     shifted = False
     scatter = np.array([])
     absorb = np.array([])
@@ -30,6 +33,8 @@ for i in range(len(photons)):
         if record['step'+str(n)]['status']['absorb'][0][dex]:
             absorb = np.append(absorb, n)
         n += 1
+    if not shifted:
+        shiftDex = len(xPos)
 
     plt.figure(i)
     ax = plt.axes(projection='3d')
@@ -41,13 +46,13 @@ for i in range(len(photons)):
             color='b', markerfacecolor='r', markeredgecolor='r')
 
     if photons[i] in signal['photon'][0].toarray():
-        ax.plot(xPos[-1], yPos[-1], zPos[-1], marker='.', color='#00CD00')
+        ax.plot(xPos[-1], yPos[-1], zPos[-1], marker='.', color=signalColor)
     for sc in scatter:
         sc = round(sc)
-        ax.plot(xPos[sc], yPos[sc], zPos[sc], marker='.', color='#DD9900')
+        ax.plot(xPos[sc], yPos[sc], zPos[sc], marker='.', color=scatterColor)
     for ab in absorb:
         ab = round(ab)
-        ax.plot(xPos[ab], yPos[ab], zPos[ab], marker='.', color='#000000')
+        ax.plot(xPos[ab], yPos[ab], zPos[ab], marker='.', color=absorbColor)
 
     ax.set_xlim(-0.025,0.025)
     ax.set_ylim(-0.025,0.025)
