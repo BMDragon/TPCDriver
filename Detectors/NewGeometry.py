@@ -47,4 +47,4 @@ def design(parameters, eng):
     return geometry
 ''')
 
-print('done?')
+print('Finished making ' + filename + '.py')
