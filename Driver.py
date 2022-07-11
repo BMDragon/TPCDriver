@@ -2,6 +2,7 @@
 import numpy as np
 import matlab.engine as gin
 
+
 ## File paths ##
 dataPath = '../LeRubik/'     # Path location to where you have the matlab code saved
 savePath = './Data/'     # Path to where to save data
@@ -11,10 +12,11 @@ saveData = 3     # 0 - do not save anything, 1 - save stats,
 ## Define chamber parameters ##
 height = 0.05     # Distance in m from cathode to anode
 width = 0.05     # Width of the TPC in m
-wallShiftEfficiency = 1.     # Rate of waveshifting at wall
-sipmShiftEfficiency = 1.     # Rate of waveshifting at SiPM
-plateShiftEfficiency = 1.     # Rate of waveshifting at plate
-geometryFile = 'LArTPCCellDefinition'     # Matlab file where the geometry is defined
+wallShiftEfficiency = 0.5     # Rate of waveshifting at wall
+sipmShiftEfficiency = 0.9     # Rate of waveshifting at SiPM
+plateShiftEfficiency = 0.     # Rate of waveshifting at plate
+
+import Detectors.LArTPCBox as geo     # import geometry file as geo
 
 ## Define materials ##
 temperature = 87.     # Temperature of medium
@@ -58,7 +60,7 @@ if overwrite:
             dex = round(detector['materials']['surfaces']['indices'][key])-1
             detector['materials']['surfaces'][k2][1][dex] = v2
 
-detector['geometry'] = eng.eval(geometryFile + '(parameters)')
+detector['geometry'] = geo.LArTPCBox(parameters, eng)
 detector = eng.ConstructDetector(detector)
 eng.workspace['detector'] = detector
 
