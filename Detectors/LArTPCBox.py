@@ -12,7 +12,7 @@ sipmArrangement = 'simplesquare'
 anodeType = 'plate'
 anodeMaterial = 'black'
 
-def LArTPCBox(parameters, eng):
+def design(parameters, eng):
     geometry = {}; sipmplane = {}
 
     geometry['type'] = type

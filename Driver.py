@@ -60,7 +60,7 @@ if overwrite:
             dex = round(detector['materials']['surfaces']['indices'][key])-1
             detector['materials']['surfaces'][k2][1][dex] = v2
 
-detector['geometry'] = geo.LArTPCBox(parameters, eng)
+detector['geometry'] = geo.design(parameters, eng)
 detector = eng.ConstructDetector(detector)
 eng.workspace['detector'] = detector
 
