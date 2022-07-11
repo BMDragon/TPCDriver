@@ -20,7 +20,8 @@ for i in range(len(photons)):
 
     plt.figure(i)
     ax = plt.axes(projection='3d')
-    ax.plot(xPos, yPos, zPos, marker='.', ls='-', color='b', markerfacecolor='r', markeredgecolor='r')
+    ax.set_title('photon number ' + str(photons[i]))
+    ax.plot(xPos, yPos, zPos, marker='.', ls='-', color='m', markerfacecolor='r', markeredgecolor='r')
     ax.set_xlim(-0.025,0.025)
     ax.set_ylim(-0.025,0.025)
     ax.set_zlim(0,0.05)
