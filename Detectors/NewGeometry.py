@@ -1,6 +1,6 @@
 # Created by Brandon Weiss on 7/11/2022
 
-filename = 'LArTPCCell'
+filename = 'LArTPCCell'     # Only change this
 
 file = open('./Detectors/' + filename + '.py', 'w')
 file.write('''\
