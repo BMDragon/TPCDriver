@@ -1,16 +1,22 @@
 # Created by Brandon Weiss on 7/11/2022
 
-type = 'box'
-# numSides = 4
-layerName = 'cell'
-isLayerCone = False
-layerMedium = 'liquid'
-layerWall = 'vikuitilar'
-wallShiftType = 1     # 1 = uniform efficiency, 2 = linear z-graded efficiency
+filename = 'LArTPCCell'
 
-sipmArrangement = 'simplesquare'
-anodeType = 'plate'
-anodeMaterial = 'black'
+file = open('./Detectors/' + filename + '.py', 'w')
+file.write('''\
+# Created by script on [INSERT CREATION DATE HERE]
+
+type =      # from type list
+# numSides = 
+layerName =      # Name of layer
+isLayerCone =      # True or False
+layerMedium =      # liquid or gas
+layerWall =      # Material of the walls
+wallShiftType =      # 1 = uniform efficiency, 2 = linear z-graded efficiency
+
+sipmArrangement =      # from sipm geometries list
+anodeType =      # from anode type list
+anodeMaterial =      # Material of the anode
 
 def design(parameters, eng):
     geometry = {}; sipmplane = {}
@@ -39,3 +45,6 @@ def design(parameters, eng):
                                           {'efficiency' : parameters['plateshiftefficiency']}}
     
     return geometry
+''')
+
+print('done?')

@@ -1,7 +1,7 @@
-# Created by Brandon Weiss on 7/11/2022
+# Created by script on [INSERT CREATION DATE HERE]
 
-type = 'box'
-# numSides = 4
+type = 'polygonal'
+numSides = 6
 layerName = 'cell'
 isLayerCone = False
 layerMedium = 'liquid'
@@ -16,7 +16,7 @@ def design(parameters, eng):
     geometry = {}; sipmplane = {}
 
     geometry['type'] = type
-    # geometry['numpanels'] = numSides
+    geometry['numpanels'] = numSides
     geometry['layername'] = [layerName]
     geometry['cone'] = isLayerCone
     geometry['medium'] = [layerMedium]
