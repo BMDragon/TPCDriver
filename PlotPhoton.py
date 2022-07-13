@@ -15,9 +15,9 @@ record = np.load(folder + '/records.npy', allow_pickle=True).item()
 signal = np.load(folder + '/signals.npy', allow_pickle=True).item()
 
 for i in range(len(photons)):
-    xPos = np.array([0])
-    yPos = np.array([0])
-    zPos = np.array([0.025])
+    xPos = np.array([])
+    yPos = np.array([])
+    zPos = np.array([])
 
     shifted = False
     scatter = np.array([])
@@ -33,18 +33,18 @@ for i in range(len(photons)):
         yPos = np.append(yPos, record['step'+str(n)]['s']['r'][1][dex])
         zPos = np.append(zPos, record['step'+str(n)]['s']['r'][2][dex])
         if not shifted and record['step'+str(n)]['status']['shifted'][0][dex]:
-            shiftDex = n
+            shiftDex = n-1
             shifted = True
         if record['step'+str(n)]['status']['scatter'][0][dex]:
-            scatter = np.append(scatter, n)
+            scatter = np.append(scatter, n-1)
         if record['step'+str(n)]['status']['absorb'][0][dex]:
-            absorb = np.append(absorb, n)
-        diffused = record['step'+str(n)]['status']['diffusereflect'][0][dex] or shiftDex == n
+            absorb = np.append(absorb, n-1)
+        diffused = record['step'+str(n)]['status']['diffusereflect'][0][dex] or shiftDex == n-1
         stopped = record['step'+str(n)]['status']['stopped'][0][dex]
         if diffused and not stopped:
-            diffuse = np.append(diffuse, n)
+            diffuse = np.append(diffuse, n-1)
         if record['step'+str(n)]['status']['specularreflect'][0][dex] and not diffused:
-            spec = np.append(spec, n)
+            spec = np.append(spec, n-1)
         n += 1
     if not shifted:
         shiftDex = len(xPos)
