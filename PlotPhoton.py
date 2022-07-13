@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 record = np.load('./Data/records.npy', allow_pickle=True).item()
 signal = np.load('./Data/signals.npy', allow_pickle=True).item()
-photons = np.array([x+1 for x in range(100000)])
+photons = np.array([x+3 for x in range(100000)])
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'
