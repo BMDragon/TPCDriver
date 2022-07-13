@@ -2,15 +2,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-record = np.load('./DriverData/records.npy', allow_pickle=True).item()
-signal = np.load('./DriverData/signals.npy', allow_pickle=True).item()
-photons = np.array([x+10 for x in range(100000)])
+photons = np.array([x+21 for x in range(100000)])
+folder = './ContPhotonData'
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'
 absorbColor = '#000000'
 diffuseReColor = '#888888'
 specularReColor = '#00BEEF'
+
+record = np.load(folder + '/records.npy', allow_pickle=True).item()
+signal = np.load(folder + '/signals.npy', allow_pickle=True).item()
 
 for i in range(len(photons)):
     xPos = np.array([0])
@@ -37,7 +39,7 @@ for i in range(len(photons)):
             scatter = np.append(scatter, n)
         if record['step'+str(n)]['status']['absorb'][0][dex]:
             absorb = np.append(absorb, n)
-        diffused = record['step'+str(n)]['status']['diffusereflect'][0][dex]
+        diffused = record['step'+str(n)]['status']['diffusereflect'][0][dex] or shiftDex == n
         stopped = record['step'+str(n)]['status']['stopped'][0][dex]
         if diffused and not stopped:
             diffuse = np.append(diffuse, n)
