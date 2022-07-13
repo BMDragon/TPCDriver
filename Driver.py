@@ -5,7 +5,7 @@ import matlab.engine as gin
 
 ## File paths ##
 dataPath = '../LeRubik/'     # Path location to where you have the matlab code saved
-savePath = './Data/'     # Path to where to save data
+savePath = './DriverData/'     # Path to where to save data
 saveData = 3     # 0 - do not save anything, 1 - save stats, 
                  # 2 - save stats and signals, 3 - save stats, signals, and record
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-record = np.load('./Data/records.npy', allow_pickle='TRUE').item()
+record = np.load('./DriverData/records.npy', allow_pickle='TRUE').item()
 
 step = 1
 photon = 1

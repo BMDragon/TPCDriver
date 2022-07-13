@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-signals = np.load('./Data/signals.npy', allow_pickle='TRUE').item()
+signals = np.load('./DriverData/signals.npy', allow_pickle='TRUE').item()
 plt.figure(1)
 plt.yscale('log')
 plt.ylabel('number of photons')

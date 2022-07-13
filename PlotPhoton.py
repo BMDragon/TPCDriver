@@ -2,8 +2,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-record = np.load('./Data/records.npy', allow_pickle=True).item()
-signal = np.load('./Data/signals.npy', allow_pickle=True).item()
+record = np.load('./DriverData/records.npy', allow_pickle=True).item()
+signal = np.load('./DriverData/signals.npy', allow_pickle=True).item()
 photons = np.array([x+10 for x in range(100000)])
 
 signalColor = '#00CD00'
