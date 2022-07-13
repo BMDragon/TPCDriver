@@ -4,11 +4,13 @@ import matplotlib.pyplot as plt
 
 record = np.load('./Data/records.npy', allow_pickle=True).item()
 signal = np.load('./Data/signals.npy', allow_pickle=True).item()
-photons = np.array([x+3 for x in range(100000)])
+photons = np.array([x+10 for x in range(100000)])
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'
 absorbColor = '#000000'
+diffuseReColor = '#888888'
+specularReColor = '#00BEEF'
 
 for i in range(len(photons)):
     xPos = np.array([0])
@@ -18,8 +20,11 @@ for i in range(len(photons)):
     shifted = False
     scatter = np.array([])
     absorb = np.array([])
+    diffuse = np.array([])
+    spec = np.array([])
 
     n = 1
+    shiftDex = -1
     while photons[i] in record['step'+str(n)]['status']['photon'][0]:
         dex = record['step'+str(n)]['status']['photon'][0].toarray().index(photons[i])
         xPos = np.append(xPos, record['step'+str(n)]['s']['r'][0][dex])
@@ -32,6 +37,12 @@ for i in range(len(photons)):
             scatter = np.append(scatter, n)
         if record['step'+str(n)]['status']['absorb'][0][dex]:
             absorb = np.append(absorb, n)
+        diffused = record['step'+str(n)]['status']['diffusereflect'][0][dex]
+        stopped = record['step'+str(n)]['status']['stopped'][0][dex]
+        if diffused and not stopped:
+            diffuse = np.append(diffuse, n)
+        if record['step'+str(n)]['status']['specularreflect'][0][dex] and not diffused:
+            spec = np.append(spec, n)
         n += 1
     if not shifted:
         shiftDex = len(xPos)
@@ -43,7 +54,7 @@ for i in range(len(photons)):
     ax.plot(xPos[0:shiftDex+1], yPos[0:shiftDex+1], zPos[0:shiftDex+1], marker='.', ls='-',
             color='m', markerfacecolor='r', markeredgecolor='r')
     ax.plot(xPos[shiftDex:], yPos[shiftDex:], zPos[shiftDex:], marker='.', ls='-',
-            color='b', markerfacecolor='r', markeredgecolor='r')
+            color='b', markerfacecolor='r', markeredgewidth=0.0)
 
     if photons[i] in signal['photon'][0].toarray():
         ax.plot(xPos[-1], yPos[-1], zPos[-1], marker='.', color=signalColor)
@@ -53,6 +64,12 @@ for i in range(len(photons)):
     for ab in absorb:
         ab = round(ab)
         ax.plot(xPos[ab], yPos[ab], zPos[ab], marker='.', color=absorbColor)
+    for df in diffuse:
+        df = round(df)
+        ax.plot(xPos[df], yPos[df], zPos[df], marker='.', color=diffuseReColor)
+    for sp in spec:
+        sp = round(sp)
+        ax.plot(xPos[sp], yPos[sp], zPos[sp], marker='.', color=specularReColor)
 
     ax.set_xlim(-0.025,0.025)
     ax.set_ylim(-0.025,0.025)
