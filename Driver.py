@@ -25,8 +25,8 @@ medium = 'Ar'     # Liquid inside the TPC
 
 ## Sampling stats ##
 numPhotons = 100000     # Total number of photons to simulate
-tracks = {'0' : [(0., 0., 0.01), (0., 0., 0.0499)],     # Start and end points for tracks in the TPC in cartesian coords
-          '1' : [(0.01, -0.02, 0.02), (0.01, 0.025, 0.03)]}
+tracks = {'track0' : [(0., 0., 0.01), (0., 0., 0.0499)],     # Start and end points for tracks in the TPC in (x, y, z)
+          'track1' : [(0.01, -0.02, 0.02), (0.01, 0.025, 0.03)]}
 angleMode = 'random'     # Mode of specifying initial angle
 
 ## Overwriting material properties ##
@@ -39,12 +39,15 @@ owProperties = {
 # DO NOT MAKE CHANGES BELOW #
 ################################################################
 
+# Start matlab engine and add path
 eng = gin.start_matlab()
 eng.clear(nargout=0)
 eng.addpath(eng.genpath(dataPath))
 
+# Define dictionaries needed to pass into matlab
 detector = {}; sampling = {}; materials = {}; parameters = {}; pos = {}
 
+# Set detector parameters
 parameters['height'] = height
 parameters['width'] = width
 parameters['wallshiftefficiency'] = wallShiftEfficiency
@@ -55,6 +58,7 @@ eng.workspace['parameters'] = parameters
 materials['temperature'] = temperature
 materials['fluid'] = medium
 
+# Get material properties and overwrite if necessary
 detector['materials'] = eng.DefaultMaterials(materials)
 if overwrite:
     for key, value in owProperties.items():
@@ -62,13 +66,16 @@ if overwrite:
             dex = round(detector['materials']['surfaces']['indices'][key])-1
             detector['materials']['surfaces'][k2][1][dex] = v2
 
+# Define the shape of the detector and which materials were used
 detector['geometry'] = geo.design(parameters, eng)
 detector = eng.ConstructDetector(detector)
 eng.workspace['detector'] = detector
 
+# Initial photon angle controls
 sampling['points'] = {'numphotons' : numPhotons}
 sampling['angle'] = {'mode' : angleMode}
 
+# Define the starting positions for each photon
 photonsPerTrack = round(numPhotons/len(tracks))
 assert photonsPerTrack*len(tracks) == numPhotons, \
     "Please make sure the number of photons is evenly divisible by the number of tracks, Thank you"
@@ -91,6 +98,7 @@ pos['x'] = lab.double(r[0])
 pos['y'] = lab.double(r[1])
 pos['z'] = lab.double(r[2])
 
+# Initialize and run the simulations
 s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
 
 stats, signal, fullRecord = eng.PhotonFollower(s, detector, 1, nargout=3)
@@ -106,4 +114,5 @@ def saveFiles(case=0):
 
 saveFiles(saveData)
 
+# Close the matlab engine
 eng.quit()
