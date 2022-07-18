@@ -25,7 +25,7 @@ medium = 'Ar'     # Liquid inside the TPC
 
 ## Sampling stats ##
 numPhotons = 100000     # Total number of photons to simulate
-tracks = {'track0' : [(0., 0., 0.01), (0., 0., 0.0499)],     # Start and end points for tracks in the TPC in (x, y, z)
+tracks = {'track0' : [(0., 0., 0.01), (0., 0., 0.05)],     # Start and end points for tracks in the TPC in (x, y, z)
           'track1' : [(0.01, -0.02, 0.02), (0.01, 0.025, 0.03)]}
 angleMode = 'random'     # Mode of specifying initial angle
 
@@ -75,7 +75,7 @@ eng.workspace['detector'] = detector
 sampling['points'] = {'numphotons' : numPhotons}
 sampling['angle'] = {'mode' : angleMode}
 
-# Define the starting positions for each photon
+# Define the starting positions for each photon and assert that it is valid
 photonsPerTrack = round(numPhotons/len(tracks))
 assert photonsPerTrack*len(tracks) == numPhotons, \
     "Please make sure the number of photons is evenly divisible by the number of tracks, Thank you"
@@ -87,6 +87,13 @@ for trDex, trKey in enumerate(tracks):
     yEnd = tracks[trKey][1][1]
     zStart = tracks[trKey][0][2]
     zEnd = tracks[trKey][1][2]
+
+    xBounds = (-0.5*width <= xStart <= 0.5*width) and (-0.5*width <= xEnd <= 0.5*width)
+    yBounds = (-0.5*width <= yStart <= 0.5*width) and (-0.5*width <= yEnd <= 0.5*width)
+    zBounds = (0.0 <= zStart <= height) and (0.0 <= zEnd <= height)
+    assert xBounds and yBounds and zBounds, \
+        "Please make sure your track boundaries are contained in the TPC"
+
     r[0][trDex*photonsPerTrack:(trDex+1)*photonsPerTrack] = \
         [xx*(xEnd-xStart)/photonsPerTrack+xStart for xx in range(photonsPerTrack)]
     r[1][trDex*photonsPerTrack:(trDex+1)*photonsPerTrack] = \
