@@ -10,3 +10,5 @@ plt.xlabel('time (s)')
 plt.title('Time from Scintillation Event until Signal Registration')
 plt.hist(signals['time'][0], 50)
 plt.show()
+
+print(len(signals['photon'][0]))

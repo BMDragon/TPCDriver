@@ -2,8 +2,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-photons = np.array([x+21 for x in range(100000)])
-folder = './ContPhotonData'
+photons = np.array([x+1 for x in range(100000)])
+folder = './DriverData'
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'

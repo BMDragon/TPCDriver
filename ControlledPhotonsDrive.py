@@ -25,8 +25,8 @@ medium = 'Ar'     # Liquid inside the TPC
 ## Sampling stats ##
 numPhotons = 100000     # Number of photons to simulate
 angleMode = 'controlled'     # Mode of specifying initial angle
-theta = 0.     # Initial photon theta
-phi = .1     # Initial photon phi
+theta = 0.1     # Initial photon theta
+phi = 0.1     # Initial photon phi
 x = (0., 0.5*height, 0.)     # Cylindrical coordinates of sampling point (r, z, phi)
 
 ## Overwriting material properties ##

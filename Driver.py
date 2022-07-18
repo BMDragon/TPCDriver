@@ -1,6 +1,7 @@
 # Created by Brandon Weiss on 7/7/2022
 import numpy as np
 import matlab.engine as gin
+import matlab as lab
 
 
 ## File paths ##
@@ -25,7 +26,7 @@ medium = 'Ar'     # Liquid inside the TPC
 ## Sampling stats ##
 numPhotons = 100000     # Number of photons to simulate
 angleMode = 'random'     # Mode of specifying initial angle
-x = (0., 0.5*height, 0.)     # Cylindrical coordinates of sampling point (r, z, phi)
+x = (0., [z*height/numPhotons for z in range(numPhotons)], 0.)     # Cylindrical coordinates of sampling point (r, z, phi)
 
 ## Overwriting material properties ##
 overwrite = False     # False for default properties, True to change anything
@@ -68,7 +69,7 @@ sampling['points'] = {'numphotons' : numPhotons}
 sampling['angle'] = {'mode' : angleMode}
 
 pos['r'] = x[0]
-pos['z'] = x[1]
+pos['z'] = lab.double(x[1])
 pos['omega'] = x[2]
 
 s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)

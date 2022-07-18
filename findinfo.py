@@ -1,9 +1,9 @@
 import numpy as np
 
-record = np.load('./ContPhotonData/records.npy', allow_pickle='TRUE').item()
+record = np.load('./DriverData/records.npy', allow_pickle='TRUE').item()
 
-step = 1
-photon = 21
+step = 2
+photon = 81
 
 dex = record['step'+str(step+1)]['status']['photon'][0].toarray().index(photon)
 for key in record['step'+str(step+1)]['status']:
