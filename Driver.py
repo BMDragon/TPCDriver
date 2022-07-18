@@ -24,9 +24,10 @@ temperature = 87.     # Temperature of medium
 medium = 'Ar'     # Liquid inside the TPC
 
 ## Sampling stats ##
-numPhotons = 100000     # Number of photons to simulate
+numPhotons = 100000     # Total number of photons to simulate
+tracks = {'0' : [(0., 0., 0.01), (0., 0., 0.0499)],     # Start and end points for tracks in the TPC in cartesian coords
+          '1' : [(0.01, -0.02, 0.02), (0.01, 0.025, 0.03)]}
 angleMode = 'random'     # Mode of specifying initial angle
-x = (0., [z*height/numPhotons for z in range(numPhotons)], 0.)     # Cylindrical coordinates of sampling point (r, z, phi)
 
 ## Overwriting material properties ##
 overwrite = False     # False for default properties, True to change anything
@@ -68,9 +69,27 @@ eng.workspace['detector'] = detector
 sampling['points'] = {'numphotons' : numPhotons}
 sampling['angle'] = {'mode' : angleMode}
 
-pos['r'] = x[0]
-pos['z'] = lab.double(x[1])
-pos['omega'] = x[2]
+photonsPerTrack = round(numPhotons/len(tracks))
+assert photonsPerTrack*len(tracks) == numPhotons, \
+    "Please make sure the number of photons is evenly divisible by the number of tracks, Thank you"
+r = ([0]*numPhotons, [0]*numPhotons, [0]*numPhotons)
+for trDex, trKey in enumerate(tracks):
+    xStart = tracks[trKey][0][0]
+    xEnd = tracks[trKey][1][0]
+    yStart = tracks[trKey][0][1]
+    yEnd = tracks[trKey][1][1]
+    zStart = tracks[trKey][0][2]
+    zEnd = tracks[trKey][1][2]
+    r[0][trDex*photonsPerTrack:(trDex+1)*photonsPerTrack] = \
+        [xx*(xEnd-xStart)/photonsPerTrack+xStart for xx in range(photonsPerTrack)]
+    r[1][trDex*photonsPerTrack:(trDex+1)*photonsPerTrack] = \
+        [yy*(yEnd-yStart)/photonsPerTrack+yStart for yy in range(photonsPerTrack)]
+    r[2][trDex*photonsPerTrack:(trDex+1)*photonsPerTrack] = \
+        [zz*(zEnd-zStart)/photonsPerTrack+zStart for zz in range(photonsPerTrack)]
+
+pos['x'] = lab.double(r[0])
+pos['y'] = lab.double(r[1])
+pos['z'] = lab.double(r[2])
 
 s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
 
