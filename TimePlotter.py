@@ -8,7 +8,7 @@ plt.yscale('log')
 plt.ylabel('number of photons')
 plt.xlabel('time (s)')
 plt.title('Time from Scintillation Event until Signal Registration')
-plt.hist(signals['time'][0], 50)
+plt.hist(signals['time'][0], 1000)
 plt.show()
 
 print(len(signals['photon'][0]))
