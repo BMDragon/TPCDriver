@@ -24,8 +24,8 @@ temperature = 87.     # Temperature of medium
 medium = 'Ar'     # Liquid inside the TPC
 
 ## Sampling stats ##
-tracks = {'track0' : [(0., 0., 0.01), (0., 0., 0.05)],     # Start and end points for tracks in the TPC in (x, y, z)
-          'track1' : [(0.01, -0.02, 0.02), (0.01, 0.025, 0.03)]}
+tracks = {'track0' : [(-0.01, 0.02, 0.041, 0.), (-0.01, -0.023, 0.05, 1.7e-10)],     # Start and end points for tracks in the TPC in (x, y, z, t)
+          'track1' : [(0.01, -0.02, 0.01, 1e-9), (0.01, 0.025, 0.005, 1.2e-9)]}     # Units of meters and seconds
 angleMode = 'random'     # Mode of specifying initial angle
 
 ## Overwriting material properties ##
@@ -83,7 +83,10 @@ MeVPerCM = 2.2
 photonsPerMeter = photonsPerMeV * MeVPerCM * 100
 photonDistro = np.array([], dtype=int)
 for trDex, trKey in enumerate(tracks):
-    photonDistro = np.append(photonDistro, round(trackLength(tracks[trKey])*photonsPerMeter))
+    tempLength = trackLength(tracks[trKey])
+    assert tempLength/abs(tracks[trKey][1][3]-tracks[trKey][0][3]) < 299792458, \
+        "Please make sure your particles are not traveling faster than 299,792,458 m/s"
+    photonDistro = np.append(photonDistro, round(tempLength*photonsPerMeter))
 numPhotons = round(np.sum(photonDistro))
 
 # Define the starting positions for each photon and assert that it is valid
@@ -121,6 +124,23 @@ sampling['angle'] = {'mode' : angleMode}
 s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
 
 stats, signal, fullRecord = eng.PhotonFollower(s, detector, 1, nargout=3)
+
+# Add the time delays to the dataset
+startDex = 0
+trackDex = 0
+runningSum2 = photonDistro[0]
+for gamma in range(len(signal['photon'][0])):
+    gDex = signal['photon'][0][gamma]-1
+    if runningSum2 < gDex:
+        startDex += photonDistro[trackDex]
+        trackDex += 1
+        runningSum2 += photonDistro[trackDex]
+
+    trackKey = list(tracks.keys())[trackDex]
+    tStart = tracks[trackKey][0][3]
+    tEnd = tracks[trackKey][1][3]
+    timeStamp = (gDex-startDex)*(tStart-tEnd)/photonDistro[trackDex] + tStart
+    signal['time'][0][gamma] += timeStamp
 
 # Function for saving the data files
 def saveFiles(case=0):
