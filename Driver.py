@@ -24,7 +24,6 @@ temperature = 87.     # Temperature of medium
 medium = 'Ar'     # Liquid inside the TPC
 
 ## Sampling stats ##
-numPhotons = 100000     # Total number of photons to simulate
 tracks = {'track0' : [(0., 0., 0.01), (0., 0., 0.05)],     # Start and end points for tracks in the TPC in (x, y, z)
           'track1' : [(0.01, -0.02, 0.02), (0.01, 0.025, 0.03)]}
 angleMode = 'random'     # Mode of specifying initial angle
@@ -71,15 +70,25 @@ detector['geometry'] = geo.design(parameters, eng)
 detector = eng.ConstructDetector(detector)
 eng.workspace['detector'] = detector
 
-# Initial photon angle controls
-sampling['points'] = {'numphotons' : numPhotons}
-sampling['angle'] = {'mode' : angleMode}
+# Function for finding track lengths
+def trackLength(path):
+    xDiff = path[1][0]-path[0][0]
+    yDiff = path[1][1]-path[0][1]
+    zDiff = path[1][2]-path[0][2]
+    return np.sqrt(xDiff**2 + yDiff**2 + zDiff**2)
+
+# Sum lengths to determine photon distribution
+photonsPerMeV = 20000
+MeVPerCM = 2.2
+photonsPerMeter = photonsPerMeV * MeVPerCM * 100
+photonDistro = np.array([], dtype=int)
+for trDex, trKey in enumerate(tracks):
+    photonDistro = np.append(photonDistro, round(trackLength(tracks[trKey])*photonsPerMeter))
+numPhotons = round(np.sum(photonDistro))
 
 # Define the starting positions for each photon and assert that it is valid
-photonsPerTrack = round(numPhotons/len(tracks))
-assert photonsPerTrack*len(tracks) == numPhotons, \
-    "Please make sure the number of photons is evenly divisible by the number of tracks, Thank you"
 r = ([0]*numPhotons, [0]*numPhotons, [0]*numPhotons)
+runningSum = 0
 for trDex, trKey in enumerate(tracks):
     xStart = tracks[trKey][0][0]
     xEnd = tracks[trKey][1][0]
@@ -94,16 +103,19 @@ for trDex, trKey in enumerate(tracks):
     assert xBounds and yBounds and zBounds, \
         "Please make sure your track boundaries are contained in the TPC"
 
-    r[0][trDex*photonsPerTrack:(trDex+1)*photonsPerTrack] = \
-        [xx*(xEnd-xStart)/photonsPerTrack+xStart for xx in range(photonsPerTrack)]
-    r[1][trDex*photonsPerTrack:(trDex+1)*photonsPerTrack] = \
-        [yy*(yEnd-yStart)/photonsPerTrack+yStart for yy in range(photonsPerTrack)]
-    r[2][trDex*photonsPerTrack:(trDex+1)*photonsPerTrack] = \
-        [zz*(zEnd-zStart)/photonsPerTrack+zStart for zz in range(photonsPerTrack)]
+    amount = photonDistro[trDex]
+    r[0][runningSum:runningSum+amount] = [xx*(xEnd-xStart)/amount+xStart for xx in range(amount)]
+    r[1][runningSum:runningSum+amount] = [yy*(yEnd-yStart)/amount+yStart for yy in range(amount)]
+    r[2][runningSum:runningSum+amount] = [zz*(zEnd-zStart)/amount+zStart for zz in range(amount)]
+    runningSum += amount
 
 pos['x'] = lab.double(r[0])
 pos['y'] = lab.double(r[1])
 pos['z'] = lab.double(r[2])
+
+# Initial photon angle controls
+sampling['points'] = {'numphotons' : numPhotons}
+sampling['angle'] = {'mode' : angleMode}
 
 # Initialize and run the simulations
 s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
