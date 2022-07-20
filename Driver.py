@@ -125,10 +125,14 @@ s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
 
 stats, signal, fullRecord = eng.PhotonFollower(s, detector, 1, nargout=3)
 
+# Keep track of photon origin in signal
+signal['tracknames'] = list(tracks.keys())
+
 # Add the time delays to the dataset
 startDex = 0
 trackDex = 0
 runningSum2 = photonDistro[0]
+trackOrigin = np.array([], dtype=int)
 for gamma in range(len(signal['photon'][0])):
     gDex = signal['photon'][0][gamma]-1
     if runningSum2 < gDex:
@@ -141,6 +145,8 @@ for gamma in range(len(signal['photon'][0])):
     tEnd = tracks[trackKey][1][3]
     timeStamp = (gDex-startDex)*(tStart-tEnd)/photonDistro[trackDex] + tStart
     signal['time'][0][gamma] += timeStamp
+    trackOrigin = np.append(trackOrigin, trackDex)
+signal['trackorigins'] = trackOrigin
 
 # Function for saving the data files
 def saveFiles(case=0):

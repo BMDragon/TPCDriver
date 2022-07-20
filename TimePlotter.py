@@ -3,12 +3,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 signals = np.load('./DriverData/signals.npy', allow_pickle='TRUE').item()
-plt.figure(1)
-plt.yscale('log')
-plt.ylabel('number of photons')
-plt.xlabel('time (s)')
-plt.title('Time from Scintillation Event until Signal Registration')
-plt.hist(signals['time'][0], 1000)
-plt.show()
+
+photonDex = 0
+numTracks = signals['trackorigins'][-1]
+numSignals = len(signals['photon'][0])
+histArray = []
+for i in range(numTracks+1):
+    tempArray = np.array([])
+    while photonDex < numSignals and signals['trackorigins'][photonDex] == i:
+        tempArray = np.append(tempArray, signals['time'][0][photonDex]*1e9)
+        photonDex += 1
+    histArray.append(tempArray)
+
+plt.rcParams.update({'font.size': 8})
+fig, ax = plt.subplots(dpi=200)
+hist, bins, patches = ax.hist(histArray, bins=1000, color=('blue', 'red'), stacked=True)
+ax.grid(alpha=0.7)
+ax.set_axisbelow(True)
+ax.set_yscale('log')
+ax.set_ylabel('number of photons')
+ax.set_xlabel('photon detection time (ns), binsize = ' + str(round((bins[1]-bins[0])*1e9, 5)) + ' ns')
+ax.set_title('Time from Scintillation Event until Signal Registration')
+ax.set_xticks(np.arange(0, max(signals['time'][0])*1e9+1, 1))
+ax.legend(signals['tracknames'])
 
 print(len(signals['photon'][0]))
+plt.show()
