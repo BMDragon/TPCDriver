@@ -11,8 +11,8 @@ saveData = 3     # 0 - do not save anything, 1 - save stats,
                  # 2 - save stats and signals, 3 - save stats, signals, and record
 
 ## Define chamber parameters ##
-height = 0.05     # Distance in m from cathode to anode
-width = 0.05     # Width of the TPC in m
+height = 0.3     # Distance in m from cathode to anode
+width = 0.3     # Width of the TPC in m
 wallShiftEfficiency = 0.5     # Rate of waveshifting at wall
 sipmShiftEfficiency = 0.9     # Rate of waveshifting at SiPM
 plateShiftEfficiency = 0.     # Rate of waveshifting at plate
@@ -24,8 +24,8 @@ temperature = 87.     # Temperature of medium
 medium = 'Ar'     # Liquid inside the TPC
 
 ## Sampling stats ##
-tracks = {'track0' : [(-0.01, 0.02, 0.041, 0.), (-0.01, -0.023, 0.05, 1.7e-10)],     # Start and end points for tracks in the TPC in (x, y, z, t)
-          'track1' : [(0.01, -0.02, 0.01, 1e-9), (0.01, 0.025, 0.005, 1.2e-9)]}     # Units of meters and seconds
+tracks = {'track0' : [(-0.1, 0.15, 0.23, 0.), (-0.1, -0.13, 0.3)]}#,     # Start and end points for tracks in the TPC in (x, y, z, t)
+          #'track1' : [(0.1, -0.15, 0.1, 1e-9), (0.1, 0.15, 0.05)]}     # Units of meters and seconds
 angleMode = 'random'     # Mode of specifying initial angle
 
 ## Overwriting material properties ##
@@ -81,11 +81,12 @@ def trackLength(path):
 photonsPerMeV = 20000
 MeVPerCM = 2.2
 photonsPerMeter = photonsPerMeV * MeVPerCM * 100
+particleSpeed = 299792457
 photonDistro = np.array([], dtype=int)
+endTimes = np.array([])
 for trDex, trKey in enumerate(tracks):
     tempLength = trackLength(tracks[trKey])
-    assert tempLength/abs(tracks[trKey][1][3]-tracks[trKey][0][3]) < 299792458, \
-        "Please make sure your particles are not traveling faster than 299,792,458 m/s"
+    endTimes = np.append(endTimes, tempLength/particleSpeed)
     photonDistro = np.append(photonDistro, round(tempLength*photonsPerMeter))
 numPhotons = round(np.sum(photonDistro))
 
@@ -125,6 +126,13 @@ s = eng.InitializePhotons(pos, sampling['angle'], numPhotons, detector)
 
 stats, signal, fullRecord = eng.PhotonFollower(s, detector, 1, nargout=3)
 
+# Implement scintillation time delays
+alpha = 0.3
+shortTau = 1e-9
+longTau = 1.6e-6
+randSeed = 314
+rng = np.random.default_rng(randSeed)
+
 # Keep track of photon origin in signal
 signal['tracknames'] = list(tracks.keys())
 
@@ -142,8 +150,12 @@ for gamma in range(len(signal['photon'][0])):
 
     trackKey = list(tracks.keys())[trackDex]
     tStart = tracks[trackKey][0][3]
-    tEnd = tracks[trackKey][1][3]
+    tEnd = endTimes[trackDex]
     timeStamp = (gDex-startDex)*(tStart-tEnd)/photonDistro[trackDex] + tStart
+    if rng.random() < alpha:
+        timeStamp += np.random.exponential(shortTau)
+    else:
+        timeStamp += np.random.exponential(longTau)
     signal['time'][0][gamma] += timeStamp
     trackOrigin = np.append(trackOrigin, trackDex)
 signal['trackorigins'] = trackOrigin
