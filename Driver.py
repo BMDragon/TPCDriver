@@ -27,6 +27,10 @@ medium = 'Ar'     # Liquid inside the TPC
 tracks = {'track0' : [(-0.1, 0.15, 0.23, 0.), (-0.1, -0.13, 0.3)]}#,     # Start and end points for tracks in the TPC in (x, y, z, t)
           #'track1' : [(0.1, -0.15, 0.1, 1e-9), (0.1, 0.15, 0.05)]}     # Units of meters and seconds
 angleMode = 'random'     # Mode of specifying initial angle
+# angleMode = 'controlled'     # Mode of specifying initial angle
+# theta = 0.1     # Initial photon theta
+# phi = 0.1     # Initial photon phi
+# x = (0., 0.5*height, 0.)     # Cylindrical coordinates of sampling point (r, z, phi)
 
 ## Overwriting material properties ##
 overwrite = False     # False for default properties, True to change anything
