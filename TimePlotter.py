@@ -7,18 +7,21 @@ signals = np.load('./DriverData/signals.npy', allow_pickle='TRUE').item()
 photonDex = 0
 numTracks = signals['trackorigins'][-1]
 numSignals = len(signals['photon'][0])
+numBins = 500
+pltLimit = 2e-5
 histArray = []
 for i in range(numTracks+1):
     tempArray = np.array([])
     while photonDex < numSignals and signals['trackorigins'][photonDex] == i:
-        tempArray = np.append(tempArray, signals['time'][0][photonDex]*1e9)
+        if signals['time'][0][photonDex] <= pltLimit:
+            tempArray = np.append(tempArray, signals['time'][0][photonDex]*1e9)
         photonDex += 1
     histArray.append(tempArray)
 
 plt.rcParams.update({'font.size': 8})
 fig, ax = plt.subplots(dpi=200)
 fig.set_size_inches(6,4.5)
-hist, bins, patches = ax.hist(histArray, bins=1000, color=('blue'), stacked=True)
+hist, bins, patches = ax.hist(histArray, bins=numBins, color=('blue'), stacked=True)
 ax.grid(alpha=0.7)
 ax.set_axisbelow(True)
 ax.set_yscale('log')
