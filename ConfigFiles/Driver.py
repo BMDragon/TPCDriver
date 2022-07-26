@@ -56,6 +56,16 @@ def Drive(config):
     checkKey('wallshifttype')
     wallShiftType = config['wallshifttype']
 
+    ## Medium information ##
+    checkKey('scatterunshifted')
+    scatterLengthUV = config['scatterunshifted']
+    checkKey('scattershifted')
+    scatterLengthShift = config['scattershifted']
+    checkKey('absorbunshifted')
+    absorptionLengthUV = config['absorbunshifted']
+    checkKey('absorbshifted')
+    absorptionLengthShift = config['absorbshifted']
+
     ## SiPM information ##
     checkKey('sipmarrangement')
     sipmArrangement = config['sipmarrangement']
@@ -120,6 +130,10 @@ def Drive(config):
 
     # Get material properties and overwrite if necessary
     detector['materials'] = eng.DefaultMaterials(materials)
+    detector['materials']['media']['scatterlength'][0][0] = scatterLengthUV
+    detector['materials']['media']['scatterlength'][0][1] = scatterLengthShift
+    detector['materials']['media']['absorptionlength'][0][0] = absorptionLengthUV
+    detector['materials']['media']['absorptionlength'][0][1] = absorptionLengthShift
     if overwrite:
         for key, value in owProperties.items():
             for k2, v2 in value.items():

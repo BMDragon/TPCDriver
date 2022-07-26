@@ -28,8 +28,14 @@ medium =      # Liquid inside the TPC
 mediumState =      # State of matter for this layer
 temperature =      # Temperature of the TPC
 
-layerWall = 'vikuitilar'     # Material used on the walls of the TPC
+layerWall =      # Material used on the walls of the TPC
 wallShiftType =      # 1 = uniform efficiency, 2 = linear z-graded efficiency
+
+## Medium information ##
+scatterLengthUV =      # Scattering length for the unshifted light (m)
+scatterLengthShift =      # Scattering length for the shifted light
+absorptionLengthUV =      # Absorption length for the unshifted light
+absorptionLengthShift =      # Absorption length for the shifted light
 
 ## SiPM information ##
 sipmArrangement =      # Arrangement of SiPMs to use
@@ -45,7 +51,8 @@ anodeMaterial =      # Material of the surface at the anode
 
 ## Sampling stats ##
 tracks = {     # Start and end points for tracks in the TPC in (x, y, z)
-          }     # Units of meters and seconds
+    '' : [(), ()]     # Units of meters and seconds
+}
 angleMode =      # Mode of specifying initial angle
 theta =      # Initial photon theta
 phi =      # Initial photon phi
@@ -79,6 +86,11 @@ config = {
     'temperature' : temperature,
     'layerwall' : layerWall,
     'wallshifttype' : wallShiftType,
+
+    'scatterunshifted' : scatterLengthUV,
+    'scattershifted' : scatterLengthShift,
+    'absorbunshifted' : absorptionLengthUV,
+    'absorbshifted' : absorptionLengthShift,
 
     'sipmarrangement' : sipmArrangement,
     'sipmqe' : sipmQe,

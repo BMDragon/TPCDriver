@@ -25,6 +25,12 @@ temperature = 87.     # Temperature of the TPC
 layerWall = 'vikuitilar'     # Material used on the walls of the TPC
 wallShiftType = 1     # 1 = uniform efficiency, 2 = linear z-graded efficiency
 
+## Medium information ##
+scatterLengthUV = 0.66     # Scattering length for the unshifted light (m)
+scatterLengthShift = 100     # Scattering length for the shifted light
+absorptionLengthUV = 100     # Absorption length for the unshifted light
+absorptionLengthShift = 1e5     # Absorption length for the shifted light
+
 ## SiPM information ##
 sipmArrangement = 'simplesquare'     # Arrangement of SiPMs to use
 sipmQe = 0.25     # Quantum efficiency of the SiPMs
@@ -74,6 +80,11 @@ config = {
     'temperature' : temperature,
     'layerwall' : layerWall,
     'wallshifttype' : wallShiftType,
+
+    'scatterunshifted' : scatterLengthUV,
+    'scattershifted' : scatterLengthShift,
+    'absorbunshifted' : absorptionLengthUV,
+    'absorbshifted' : absorptionLengthShift,
 
     'sipmarrangement' : sipmArrangement,
     'sipmqe' : sipmQe,
