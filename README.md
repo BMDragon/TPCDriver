@@ -45,14 +45,18 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 ## Usage
 
 #### 1. Running simulations
-1. ConfigFiles/NewConfig.py
--- This is a generative script that produces a new configuration file for simulations
--- Input: Name of the new configuration file (change on line 3)
--- Output: A blank template configuration file located inside the ConfigFiles folder
--- Once a new configuration file is generated, the user must go in and set all the values for the variables in order to use the file correctly
+1. ConfigFiles/NewConfig.py\
+&ndash; This is a generative script that produces a new configuration file for simulations\
+&ndash; Input: Name of the new configuration file (change on line 3)\
+&ndash; Output: A blank template configuration file located inside the ConfigFiles folder\
+&ndash; Once a new configuration file is generated, the user must go in and set all the values for the variables in order to use the file correctly
+
 2. Configuration Files
+
 -- 
+
 3. Driver
+
 -- 
 
 #### 2. TimePlotter
