@@ -105,7 +105,7 @@ def Drive(config):
     checkKey('owproperties')
     owProperties = config['owproperties']
 
-    # DO NOT MAKE CHANGES BELOW #
+    # Start Processing #
     ################################################################
 
     # Start matlab engine and add path
@@ -156,6 +156,7 @@ def Drive(config):
     geometry['shift'] = {'wall' : {'type' : wallShiftType}}
     geometry['shift']['wall']['efficiency'] = parameters['wallshiftefficiency']
 
+    # Define the SiPM and its parameters
     sipmplane['name'] = sipmArrangement
     sipmplane['width'] = parameters['width']
     sipmplane['array'] = {'qe' : sipmQe}
@@ -167,10 +168,13 @@ def Drive(config):
     geometry['shift']['readout'] = {'bottom' : {'array' : 
                                    {'efficiency' : parameters['sipmshiftefficiency']}}}
     
+    # Define the anode and its parameters
     geometry['readout']['top'] = {'type' : anodeType}
     geometry['readout']['top']['surface'] = {'plate' : anodeMaterial}
     geometry['shift']['readout']['top'] = {'plate' : 
                                           {'efficiency' : parameters['plateshiftefficiency']}}
+    
+    # Get the rest of the geometry from matlab
     detector['geometry'] = geometry
     detector = eng.ConstructDetector(detector)
     eng.workspace['detector'] = detector
