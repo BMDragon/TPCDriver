@@ -46,18 +46,20 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 
 #### 1. Running simulations
 1. ConfigFiles/NewConfig.py\
-&ndash; This is a generative script that produces a new configuration file for simulations\
-&ndash; Input: Name of the new configuration file (change on line 3)\
-&ndash; Output: A blank template configuration file located inside the ConfigFiles folder\
-&ndash; Once a new configuration file is generated, the user must go in and set all the values for the variables in order to use the file correctly
-
-2. Configuration Files
-
--- 
-
-3. Driver
-
--- 
+&ndash; This is a generative script that produces a new configuration file for simulations.\
+&ndash; Input: Name of the new configuration file (change on line 3).\
+&ndash; Output: A blank template configuration file located inside the ConfigFiles folder.\
+&ndash; Once a new configuration file is generated, the user must go in and set all the values for the variables in order to use the file correctly.
+2. Configuration Files\
+&ndash; Within the generated configuration file there should be comments explaining what each variable corresponds to and their "physical meaning." All units should be in mks (standard SI).\
+&ndash; If saving files, make sure that a directory is created with a name that accurately reflects what you are simulating. Change the folder name on line 5 to the same name as the desired directory.\
+&ndash; There is more information about allowable values in the Configuration File details section below.\
+&ndash; The last line of the configuration file should be a call to the Driver.
+3. Driver\
+&ndash; A generalized python file which holds a function to be called by the configuration files.\
+&ndash; Again, the file location on line 6 called `dataPath` should be changed to where the MATLAB code is saved.\
+&ndash; The function `Drive` first unpacks configuration values while asserting that all properties used are defined in the configuration file. It then drives the MATLAB simulation as described in the Driver details section.\
+&ndash; This file should not be run by itself.
 
 #### 2. TimePlotter
 
@@ -67,4 +69,9 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 
 #### 4. FindInfo
 
-## Materials and properties
+## Configuration File details
+
+## Driver details
+
+
+## Output files
