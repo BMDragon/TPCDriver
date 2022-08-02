@@ -38,6 +38,7 @@ At the MATLAB command prompt —
 Information regarding more details of the MATLAB to python API can be found [here](https://www.mathworks.com/help/matlab/matlab-engine-for-python.html?s_tid=CRUX_topnav).
 
 **Get MATLAB Code**
+
 In order to get the correct version (i.e. compatible) version of Tom Schutt's MATLAB code, please fork and clone the repository [here](https://github.com/BMDragon/LeRubik). It is a private repository, so please email either Brandon Weiss (bmweiss10@gmail.com) or Gianluca Petrillo (petrillo@slac.stanford.edu) to get access.
 
 **Important:** Once you fork and clone this repository, make sure to change the file location on line 6 of ConfigFiles/Driver.py. The new file location should be a path to where the MATLAB code from the previous paragraph is saved. (If you want to use `../`, it seems that the location should be relative to TPCDriver, not ConfigFiles)
@@ -50,11 +51,13 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 &ndash; Input: Name of the new configuration file (change on line 3).\
 &ndash; Output: A blank template configuration file located inside the ConfigFiles folder.\
 &ndash; Once a new configuration file is generated, the user must go in and set all the values for the variables in order to use the file correctly.
+
 2. Configuration Files\
 &ndash; Within the generated configuration file there should be comments explaining what each variable corresponds to and their "physical meaning." All units should be in mks (standard SI).\
 &ndash; If saving files, make sure that a directory is created with a name that accurately reflects what you are simulating. Change the folder name on line 5 to the same name as the desired directory.\
 &ndash; There is more information about allowable values in the Configuration File details section below.\
 &ndash; The last line of the configuration file should be a call to the Driver.
+
 3. Driver\
 &ndash; A generalized python file which holds a function to be called by the configuration files.\
 &ndash; Again, the file location on line 6 called `dataPath` should be changed to where the MATLAB code is saved.\
