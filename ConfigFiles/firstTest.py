@@ -3,7 +3,7 @@ import Driver
 
 ## File paths ##
 saveFolder = 'DriverData'     # Folder where to save the data
-saveOptions = 0     # 0 - do not save anything, 1 - save stats, 
+saveOptions = 2     # 0 - do not save anything, 1 - save stats, 
                  # 2 - save stats and signals, 3 - save stats, signals, and record
 
 ## Define chamber parameters ##
@@ -44,8 +44,8 @@ anodeType = 'plate'     # Type of surface at the anode
 anodeMaterial = 'black'     # Material of the surface at the anode
 
 ## Sampling stats ##
-tracks = {'track0' : [(-0.1, 0.15, 0.23, 0.), (-0.1, -0.13, 0.3)]}#,     # Start and end points for tracks in the TPC in (x, y, z)
-          #'track1' : [(0.1, -0.15, 0.1, 1e-9), (0.1, 0.15, 0.05)]}     # Units of meters and seconds
+tracks = {'track0' : [(-0.1, 0.15, 0.23, 0.), (-0.1, -0.13, 0.3)],     # Start and end points for tracks in the TPC in (x, y, z)
+          'track1' : [(0.1, -0.15, 0.1, 5e-7), (0.1, 0.15, 0.05)]}     # Units of meters and seconds
 angleMode = 'random'     # Mode of specifying initial angle
 theta = 0.1     # Initial photon theta
 phi = 0.1     # Initial photon phi
