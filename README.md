@@ -55,13 +55,14 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 2. Configuration Files\
 &ndash; Within the generated configuration file there should be comments explaining what each variable corresponds to and their "physical meaning." All units should be in mks (standard SI).\
 &ndash; If saving files, make sure that a directory is created with a name that accurately reflects what you are simulating. Change the folder name on line 5 to the same name as the desired directory.\
-&ndash; There is more information about allowable values in the Configuration File details section below.\
-&ndash; The last line of the configuration file should be a call to the Driver.
+&ndash; There is more information about allowable values in the [Configuration File details](https://github.com/BMDragon/TPCDriver#configuration-file-details) section below.\
+&ndash; The last line of the configuration file should be a call to the Driver.\
+&ndash; Output files will be saved to the specified directory. The saved files may include stats, signals, and/or a full record, the details of which can be found in the [Output files](https://github.com/BMDragon/TPCDriver#output-files) section.
 
 3. Driver\
 &ndash; A generalized python file which holds a function to be called by the configuration files.\
 &ndash; Again, the file location on line 6 called `dataPath` should be changed to where the MATLAB code is saved.\
-&ndash; The function `Drive` first unpacks configuration values while asserting that all properties used are defined in the configuration file. It then drives the MATLAB simulation as described in the Driver details section.\
+&ndash; The function `Drive` first unpacks configuration values while asserting that all properties used are defined in the configuration file. It then drives the MATLAB simulation as described in the [Driver details](https://github.com/BMDragon/TPCDriver#driver-details) section.\
 &ndash; This file should not be run by itself.
 
 #### 2. TimePlotter
