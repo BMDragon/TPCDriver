@@ -138,7 +138,7 @@ def Drive(config):
         for key, value in owProperties.items():
             for k2, v2 in value.items():
                 dex = round(detector['materials']['surfaces']['indices'][key])-1
-                row = v2.items()[0]
+                row = list(v2.keys())[0]
                 detector['materials']['surfaces'][k2][row][dex] = v2[row]
 
     # Define the shape of the detector and which materials were used
@@ -195,7 +195,7 @@ def Drive(config):
     endTimes = np.array([])
     for trDex, trKey in enumerate(tracks):
         tempLength = trackLength(tracks[trKey])
-        endTimes = np.append(endTimes, tempLength/particleSpeed)
+        endTimes = np.append(endTimes, tempLength/particleSpeed + tracks[trKey][0][3])
         photonDistro = np.append(photonDistro, round(tempLength*photonsPerMeter))
     numPhotons = round(np.sum(photonDistro))
 
