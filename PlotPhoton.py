@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 photons = np.array([x+1 for x in range(100000)])
-folder = './DriverData'
+folder = './Reflect0Data'
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'
@@ -24,10 +24,11 @@ for i in range(len(photons)):
     absorb = np.array([])
     diffuse = np.array([])
     spec = np.array([])
+    maxN = len(record.keys())
 
     n = 1
     shiftDex = -1
-    while photons[i] in record['step'+str(n)]['status']['photon'][0]:
+    while n < maxN and photons[i] in record['step'+str(n)]['status']['photon'][0]:
         dex = record['step'+str(n)]['status']['photon'][0].toarray().index(photons[i])
         xPos = np.append(xPos, record['step'+str(n)]['s']['r'][0][dex])
         yPos = np.append(yPos, record['step'+str(n)]['s']['r'][1][dex])
