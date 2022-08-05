@@ -2,14 +2,16 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-signals = np.load('./DriverData/signals.npy', allow_pickle='TRUE').item()
-stats = np.load('./DriverData/stats.npy', allow_pickle='TRUE').item()
+folder = 'DriverData'
+numBins = 500
+pltLimit = 3.5e-6
+
+signals = np.load('./' + folder + '/signals.npy', allow_pickle='TRUE').item()
+stats = np.load('./' + folder + '/stats.npy', allow_pickle='TRUE').item()
 
 photonDex = 0
 numTracks = signals['trackorigins'][-1]
 numSignals = len(signals['photon'][0])
-numBins = 500
-pltLimit = 3.5e-6
 histArray = []
 for i in range(numTracks+1):
     tempArray = np.array([])

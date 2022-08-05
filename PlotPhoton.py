@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 photons = np.array([x+1 for x in range(100000)])
 folder = './DriverData'
-tpcSize = 0.03
+tpcSize = 0.3
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'

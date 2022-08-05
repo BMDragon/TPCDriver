@@ -3,7 +3,7 @@ import Driver
 
 ## File paths ##
 saveFolder = 'DriverData'     # Folder where to save the data
-saveOptions = 2     # 0 - do not save anything, 1 - save stats, 
+saveOptions = 3     # 0 - do not save anything, 1 - save stats, 
                  # 2 - save stats and signals, 3 - save stats, signals, and record
 
 ## Define chamber parameters ##
