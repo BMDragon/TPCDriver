@@ -2,12 +2,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-folder = 'DriverData'
-numBins = 500
-pltLimit = 3.5e-6
+folder = './DriverData'     # Directory where files are saved
+numBins = 500     # Number of bins in the histogram
+pltLimit = 3.5e-6     # Upper limit on the time for the histogram plot
 
-signals = np.load('./' + folder + '/signals.npy', allow_pickle='TRUE').item()
-stats = np.load('./' + folder + '/stats.npy', allow_pickle='TRUE').item()
+signals = np.load(folder + '/signals.npy', allow_pickle='TRUE').item()
+stats = np.load(folder + '/stats.npy', allow_pickle='TRUE').item()
 
 photonDex = 0
 numTracks = signals['trackorigins'][-1]

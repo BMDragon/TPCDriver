@@ -2,9 +2,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-photons = np.array([x+1 for x in range(100000)])
-folder = './DriverData'
-tpcSize = 0.3
+photons = np.array([x+1 for x in range(100000)])     # Which photons to draw paths of
+folder = './DriverData'     # Directory where files are saved
+tpcWidth = 0.3     # Width of the TPC
+tpcHeight = 0.3     # Height of the TPC
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'
@@ -75,9 +76,9 @@ for i in range(len(photons)):
         sp = round(sp)
         ax.plot(xPos[sp], yPos[sp], zPos[sp], marker='.', color=specularReColor)
 
-    ax.set_xlim(-1*tpcSize/2, tpcSize/2)
-    ax.set_ylim(-1*tpcSize/2, tpcSize/2)
-    ax.set_zlim(0, tpcSize)
+    ax.set_xlim(-1*tpcWidth/2, tpcWidth/2)
+    ax.set_ylim(-1*tpcWidth/2, tpcWidth/2)
+    ax.set_zlim(0, tpcHeight)
     ax.set_xlabel('X')
     for j in range(len(xPos)):
         ax.text(xPos[j], yPos[j], zPos[j], str(j))
