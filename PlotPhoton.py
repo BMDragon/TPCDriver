@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 photons = np.array([x+1 for x in range(100000)])
-folder = './Reflect0Data'
+folder = './DriverData'
+tpcSize = 0.03
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'
@@ -74,9 +75,9 @@ for i in range(len(photons)):
         sp = round(sp)
         ax.plot(xPos[sp], yPos[sp], zPos[sp], marker='.', color=specularReColor)
 
-    ax.set_xlim(-0.025,0.025)
-    ax.set_ylim(-0.025,0.025)
-    ax.set_zlim(0,0.05)
+    ax.set_xlim(-1*tpcSize/2, tpcSize/2)
+    ax.set_ylim(-1*tpcSize/2, tpcSize/2)
+    ax.set_zlim(0, tpcSize)
     ax.set_xlabel('X')
     for j in range(len(xPos)):
         ax.text(xPos[j], yPos[j], zPos[j], str(j))
