@@ -136,10 +136,10 @@ def Drive(config):
     detector['materials']['media']['absorptionlength'][0][1] = absorptionLengthShift
     if overwrite:
         for key, value in owProperties.items():
+            dex = round(detector['materials']['surfaces']['indices'][key])-1
             for k2, v2 in value.items():
-                dex = round(detector['materials']['surfaces']['indices'][key])-1
-                row = list(v2.keys())[0]
-                detector['materials']['surfaces'][k2][row][dex] = v2[row]
+                for row in list(v2.keys()):
+                    detector['materials']['surfaces'][k2][row][dex] = v2[row]
 
     # Define the shape of the detector and which materials were used
     geometry = {}; sipmplane = {}

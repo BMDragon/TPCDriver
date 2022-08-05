@@ -2,10 +2,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-photons = np.array([x+1 for x in range(100000)])     # Which photons to draw paths of
-folder = './DriverData'     # Directory where files are saved
-tpcWidth = 0.3     # Width of the TPC
-tpcHeight = 0.3     # Height of the TPC
+photons = np.array([x+1 for x in range(100000)])     # Which photons to draw paths for
+folder = './Reflect0Data'     # Directory where files are saved
+tpcWidth = 0.05     # Width of the TPC
+tpcHeight = 0.05     # Height of the TPC
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'
@@ -30,7 +30,7 @@ for i in range(len(photons)):
 
     n = 1
     shiftDex = -1
-    while n < maxN and photons[i] in record['step'+str(n)]['status']['photon'][0]:
+    while n <= maxN and photons[i] in record['step'+str(n)]['status']['photon'][0]:
         dex = record['step'+str(n)]['status']['photon'][0].toarray().index(photons[i])
         xPos = np.append(xPos, record['step'+str(n)]['s']['r'][0][dex])
         yPos = np.append(yPos, record['step'+str(n)]['s']['r'][1][dex])

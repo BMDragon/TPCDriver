@@ -1,8 +1,8 @@
 import numpy as np
 
-folder = './DriverData'     # Directory where files are saved
-photon = 1     # Photon whose information is desired
-step = 0     # Event number of the photon
+folder = './Reflect0Data'     # Directory where files are saved
+photon = 2     # Photon whose information is desired
+step = 1     # Event number of the photon
 
 record = np.load(folder + '/records.npy', allow_pickle='TRUE').item()
 
