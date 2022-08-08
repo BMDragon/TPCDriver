@@ -48,7 +48,7 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 #### 1. Running simulations
 1. ConfigFiles/NewConfig.py\
 &ndash; This is a generative script that produces a new configuration file for simulations.\
-&ndash; Input: Name of the new configuration file (change on line 3).\
+&ndash; Input: Name of the new configuration file (change on line 3, variable ```filename```).\
 &ndash; Output: A blank template configuration file located inside the ConfigFiles folder.\
 &ndash; Once a new configuration file is generated, the user must go in and set all the values for the variables in order to use the file correctly.
 
@@ -69,7 +69,9 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 
 This script will create a histogram plot of the number of photons that generated a signal at a silicon photomultiplier (SiPM) at a given time. ![ Example histogram of the time plots](./readme_images/time.png "Example histogram of the time plots")
 
-Input: Line 5 is the name of the folder where the data is saved. Line 6 is the number
+Input: Line 5 (variable ```folder```) is the name of the folder where the data is saved. Line 6 (variable ```numBins```) is the number of bins to have in the histogram plot. Line 7 (variable ```pltLimit```) is the max time in seconds to be plotted in the histogram. Also in line 27 (```hist, bins, patches = ax.hist(histArray, bins=numBins, color=('blue', 'red'), stacked=True)```), be sure to change the ```color``` keyword argument to have the same number of elements (specified colors) as the number of tracks in the dataset.
+
+Output: A histogram plot of the time of signal observation by the SiPMs. The y-axis is a logarithmic scale of photon counts. The x-axis is time in nanoseconds. The script will also print into the terminal two numbers: first, the number of photons observed by the SiPMs (and thus considered for the histogram); second, the total number of photons that were simulated in this dataset.
 
 #### 3. PlotPhoton
 
