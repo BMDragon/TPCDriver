@@ -67,15 +67,59 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 
 #### 2. TimePlotter
 
+This script will create a histogram plot of the number of photons that generated a signal at a silicon photomultiplier (SiPM) at a given time. ![ Example histogram of the time plots](./readme_images/time.png "Example histogram of the time plots")
+
+Input: Line 5 is the name of the folder where the data is saved. Line 6 is the number
 
 #### 3. PlotPhoton
 
 
 #### 4. FindInfo
 
+
 ## Configuration File details
+
+#### 1. New Configuration File Generator
+
+
+#### 2. Input values
+
+
+#### 3. Overwriting properties
+
 
 ## Driver details
 
+#### 1. Unpacking and repackaging values
+
+
+#### 2. MATLAB handling
+
+
+#### 3. Overwriting material properties
+
+
+#### 4. Calls to MATLAB preprocessing
+
+
+#### 5. Determining photon distribution
+
+
+#### 6. Determining photon starting positions
+
+
+#### 7. Running Simulation in MATLAB
+
+
+#### 8. Scintillation time delays
+
 
 ## Output files
+
+#### 1. Stats
+
+
+#### 2. Signals
+
+
+#### 3. Records
