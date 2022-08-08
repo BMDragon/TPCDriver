@@ -3,9 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 photons = np.array([x+1 for x in range(100000)])     # Which photons to draw paths for
-folder = './Reflect0Data'     # Directory where files are saved
-tpcWidth = 0.05     # Width of the TPC
-tpcHeight = 0.05     # Height of the TPC
+folder = './DriverData'     # Directory where files are saved
+tpcWidth = 0.3     # Width of the TPC
+tpcHeight = 0.3     # Height of the TPC
 
 signalColor = '#00CD00'
 scatterColor = '#DD9900'

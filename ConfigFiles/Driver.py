@@ -69,8 +69,10 @@ def Drive(config):
     ## SiPM information ##
     checkKey('sipmarrangement')
     sipmArrangement = config['sipmarrangement']
-    checkKey('sipmqe')
-    sipmQe = config['sipmqe']
+    checkKey('sipmqeuv')
+    sipmQeUV = config['sipmqeuv']
+    checkKey('sipmqevis')
+    sipmQeVis = config['sipmqevis']
     checkKey('sipmsize')
     sipmSize = config['sipmsize']
     checkKey('sipmgapsize')
@@ -159,7 +161,7 @@ def Drive(config):
     # Define the SiPM and its parameters
     sipmplane['name'] = sipmArrangement
     sipmplane['width'] = parameters['width']
-    sipmplane['array'] = {'qe' : sipmQe}
+    sipmplane['array'] = {'qe' : lab.double([sipmQeUV, sipmQeVis])}
     sipmplane['d'] = {'array' : sipmSize}
     sipmplane['edge_gap'] = sipmGapSize
     sipmplane['surface'] = {'array' : sipmMaterial}

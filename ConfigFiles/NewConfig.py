@@ -39,7 +39,8 @@ absorptionLengthShift =      # Absorption length for the shifted light
 
 ## SiPM information ##
 sipmArrangement =      # Arrangement of SiPMs to use
-sipmQe =      # Quantum efficiency of the SiPMs
+sipmQeUV =      # Quantum efficiency of the SiPMs for UV (unshifted) light
+sipmQeVis =      # Quantum efficiency of the SiPMs for visible (shifted) light
 sipmSize =      # Size of the SiPMs themselves
 sipmGapSize =      # Distance between SiPMs in the array
 sipmMaterial =      # Material of the SiPMs
@@ -93,7 +94,8 @@ config = {
     'absorbshifted' : absorptionLengthShift,
 
     'sipmarrangement' : sipmArrangement,
-    'sipmqe' : sipmQe,
+    'sipmqeuv' : sipmQeUV,
+    'sipmqevis' : sipmQeVis,
     'sipmsize' : sipmSize,
     'sipmgapsize' : sipmGapSize,
     'sipmmaterial' : sipmMaterial,
