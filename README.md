@@ -67,14 +67,15 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 
 #### 2. TimePlotter
 
-This script will create a histogram plot of the number of photons that generated a signal at a silicon photomultiplier (SiPM) at a given time. ![ Example histogram of the time plots](./readme_images/time.png "Example histogram of the time plots")
+This script will create a histogram plot of the number of photons that generated a signal at a silicon photomultiplier (SiPM) at a given time. ![ Example histogram of the time plots.](./readme_images/time.png "Example histogram of the time plots")
 
 Input: Line 5 (variable ```folder```) is the name of the folder where the data is saved. Line 6 (variable ```numBins```) is the number of bins to have in the histogram plot. Line 7 (variable ```pltLimit```) is the max time in seconds to be plotted in the histogram. Also in line 27 (```hist, bins, patches = ax.hist(histArray, bins=numBins, color=('blue', 'red'), stacked=True)```), be sure to change the ```color``` keyword argument to have the same number of elements (specified colors) as the number of tracks in the dataset.
 
-Output: A histogram plot of the time of signal observation by the SiPMs. The y-axis is a logarithmic scale of photon counts. The x-axis is time in nanoseconds. The script will also print into the terminal two numbers: first, the number of photons observed by the SiPMs (and thus considered for the histogram); second, the total number of photons that were simulated in this dataset.
+Output: A histogram plot of the time of signal observation by the SiPMs. The y-axis is a logarithmic scale of photon counts. The x-axis is time in nanoseconds. The script will also print into the terminal four numbers: first, the number of photons observed by the SiPMs (and thus considered for the histogram); second, the number of photons that get displayed by the histogram; third, the number of photons omitted (by the plot limit on the time axis); and last, the total number of photons that were simulated in this dataset.
 
 #### 3. PlotPhoton
 
+This scipt will create a visualization for the path that any given photon takes through the TPC. ![ Example of a photon path that shows a shift at the cathode, specular reflection at a wall, and then absorption into a wall.](./readme_images/path.png "Example photon path")
 
 #### 4. FindInfo
 
