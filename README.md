@@ -69,13 +69,17 @@ In order to get the correct version (i.e. compatible) version of Tom Schutt's MA
 
 This script will create a histogram plot of the number of photons that generated a signal at a silicon photomultiplier (SiPM) at a given time. ![ Example histogram of the time plots.](./readme_images/time.png "Example histogram of the time plots")
 
-Input: Line 5 (variable ```folder```) is the name of the folder where the data is saved. Line 6 (variable ```numBins```) is the number of bins to have in the histogram plot. Line 7 (variable ```pltLimit```) is the max time in seconds to be plotted in the histogram. Also in line 27 (```hist, bins, patches = ax.hist(histArray, bins=numBins, color=('blue', 'red'), stacked=True)```), be sure to change the ```color``` keyword argument to have the same number of elements (specified colors) as the number of tracks in the dataset.
+Input: Line 5 (variable ```folder```) is a path to the directory where the data is located. Line 6 (variable ```numBins```) is the number of bins to have in the histogram plot. Line 7 (variable ```pltLimit```) is the max time in seconds to be plotted in the histogram. Also in line 27 (```hist, bins, patches = ax.hist(histArray, bins=numBins, color=('blue', 'red'), stacked=True)```), be sure to change the ```color``` keyword argument to have the same number of elements (specified colors) as the number of tracks in the dataset.
 
 Output: A histogram plot of the time of signal observation by the SiPMs. The y-axis is a logarithmic scale of photon counts. The x-axis is time in nanoseconds. The script will also print into the terminal four numbers: first, the number of photons observed by the SiPMs (and thus considered for the histogram); second, the number of photons that get displayed by the histogram; third, the number of photons omitted (by the plot limit on the time axis); and last, the total number of photons that were simulated in this dataset.
 
 #### 3. PlotPhoton
 
-This scipt will create a visualization for the path that any given photon takes through the TPC. ![ Example of a photon path that shows a shift at the cathode, specular reflection at a wall, and then absorption into a wall.](./readme_images/path.png "Example photon path")
+This script will create a visualization for the path that any given photon takes through the TPC. ![ Example of a photon path that shows a shift at the cathode, specular reflection at a wall, and then absorption into a wall.](./readme_images/path.png "Example photon path")
+
+Input: Line 5 (variable ```photons```) is a numpy array of the photons whose path the user wants to visualize, indexed from 1 (there is no photon 0). Line 6 (variable ```folder```) is a path to the directory where the data is located. Line 7 (variable ```tpcWidth```) is the length of one side of the square base of the TPC; this should be equal to the width value used when generating the dataset. Line 8 (variable ```tpcHeight```) is the "height" of the TPC along the z-axis; this should be equal to the height value used when generating the dataset. 
+
+Output: A 3-dimensional plot tracing the paths of photons, one at a time. The starting point (instance of scintillation) is labeled as point 0. Unshifted UV light is traced with a magenta line while shifted visible light is traced with a blue line. Diffuse reflection is marked by a gray dot while specular reflection is marked by a cyan dot. Rayleigh scattering is marked by an orange dot. Absorption back into the medium is marked by a black dot. Absoption into a surface is marked by a red dot, except for when the photon is absorbed into a SiPM *and* registers a signal, then it is marked by a green dot. These colors are customizable in lines 10-15.
 
 #### 4. FindInfo
 
