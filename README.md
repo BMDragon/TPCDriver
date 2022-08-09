@@ -97,22 +97,105 @@ Example 2: This will scan through all photons in step 2 and print out those that
 
 ```
 for ii in range(len(record['step2']['status']['stopped'][0])):
-        if record['step2']['status']['stopped'][0][ii] and \
-           record['step2']['status']['detectortop'][0][ii]:
-            print(record['step2']['status']['photon'][0][ii])
+    if record['step2']['status']['stopped'][0][ii] and \
+       record['step2']['status']['detectortop'][0][ii]:
+        print(record['step2']['status']['photon'][0][ii])
 ```
 
 ## Configuration File details
 
 #### 1. New Configuration File Generator
 
+```filename``` should be a String that follows normal file-naming conventions. It is the name of the new config script.
 
+If a new control feature is desired in future TPC simulations, add the control variable into the template at the desired line *and* in the dictionary and it will appear when new files are generated from this script.
 
 #### 2. Input values
 
+All these values get packaged into a python dictionary before calling the driver.
 
+```saveFolder``` is the name of the folder where the data files should be saved. The directory should be manually made by the user beforehand.
+
+```saveOptions``` is an integer in [0, 3]. 0: do not save anything. 1: save only record. 2: save record and signals. 3: save record, signals, and stats.
+
+```height``` is a float > 0. This is the distance in meters from the cathode to the anode.
+
+```width``` is a float > 0. This is the width of the TPC in meters. For a box, this is the legth of one side of the square base.
+
+```wallShiftEfficiency``` is a float in [0.0, 1.0]. This is the rate of waveshifting at the walls.
+
+```sipmShiftEfficiency``` is a float in [0.0, 1.0]. This is the rate of waveshifting at the SiPMs.
+
+```anodeShiftEfficiency``` is a float in [0.0, 1.0]. This is the rate of waveshifting at the anode.
+
+```detectorType``` is a String specifying the general shape of the TPC. Can have values of 'box', 'polygonal', 'cylinder', or 'cone'. However, only 'box' is compatible with the current code. Default ```'box'```.
+
+```numSides``` is an integer >= 3. If detectorType is 'polygonal', then this determines how many wall faces the TPC will have (else it does not matter). Default ```4```.
+
+```layerName``` is a String that will give an appropriate name to this layer. This is a legacy from Tom Shutt's MATLAB code. Default ```'cell'```.
+
+```isLayerCone``` is a boolean. This states whether or not the layer has a conical shape. Also a legacy from Tom Schutt's MATLAB code. Default ```False```.
+
+```medium``` is a String specifying the medium used within the TPC. Can be either 'Ar' for argon or 'Xe' for xenon. Default ```'Ar'```.
+
+```mediumState``` is a String specyfying the state of matter of the medium within the TPC. Can be either 'liquid' or 'gas'. Default ```'liquid'```.
+
+```temperature``` is a float > 0. This is the temperature in Kelvin of the medium inside the TPC. Default ```87.0```.
+
+```layerWall``` is a String specifying the material of the walls. The available options are described in the [default materials](https://github.com/BMDragon/TPCDriver#4-default-materials) section below.
+
+```wallShiftType``` is an integer in [1, 2]. 1: uniform efficiency. 2: linear z-graded efficiency. Default ```1```.
+
+```scatterLengthUV``` is a float > 0. This is the scattering length in meters of the medium with respect to the unshifted light (UV for LAr). To set to infinity, make sure to ```import math``` at the top and set this value to ```math.inf```.
+
+```scatterLengthShift``` is a float > 0. This is the scattering length in meters of the medium with respect to the shifted light (visible for LAr). To set to infinity, make sure to ```import math``` at the top and set this value to ```math.inf```.
+
+```absoptionLengthUV``` is a float > 0. This is the absoption length in meters of the medium with respect to the unshifted light (UV for LAr). To set to infinity, make sure to ```import math``` at the top and set this value to ```math.inf```.
+
+```absorptionLengthShift```  is a float > 0. This is the absoption length in meters of the medium with respect to the shifted light (visible for LAr). To set to infinity, make sure to ```import math``` at the top and set this value to ```math.inf```.
+
+```sipmArrangement``` is a String specifying the way to organize the SiPMs. Right now, the only possible configuration is a simple square: ```'simplesquare'```.
+
+```sipmQeUV``` is a float in [0.0, 1.0]. This is the quantum efficiency of the SiPMs with respect to the unshifted light (UV in LAr).
+
+```sipmQeVis``` is a float in [0.0, 1.0]. This is the quantum efficiency of the SiPMs with respect to the shifted light (visible in LAr).
+
+```sipmSize``` is a float >= 0. This is the length in meters of one side of a square SiPM. Be sure that sipmSize + sipmGapSize > 0.
+
+```sipmGapSize``` is a float >= 0. This is the distance in meters in between adjacent sides of neighboring SiPMs. i.e. sipmSize + sipmGapSize = the center-to-center distance of neighboring SiPMs. Be sure that sipmSize + sipmGapSize > 0.
+
+```sipmMaterial``` is a String specifying the material of the SiPMs. The available options are described in the [default materials](https://github.com/BMDragon/TPCDriver#4-default-materials) section below, although it is highly suggested to use silicon ```'si'```.
+
+```gapMaterial``` is a String specifying the material of the gaps in the cathode. The available options are described in the [default materials](https://github.com/BMDragon/TPCDriver#4-default-materials) section below.
+
+```anodeType``` is a String specifying the type of surface of the anode. Default ```'plate'```.
+
+```anodeMaterial``` is a String specifying the material of the anode. The available options are described in the [default materials](https://github.com/BMDragon/TPCDriver#4-default-materials) section below.
+
+```tracks``` is a dictionary of a String key and a list of tuplets value. The key should be a String which will end up being the name of the track. The value should be a list of two tuplets: the first being a tuplet of 4 floats representing the starting position (x1, y1, z1, t), the second being a tuplet of 3 floats representing the end position (x2, y2, z2). End time is calculated from particle speed in the Driver. Be sure that x1, x2, y1, y2 in [-width/2, width/2]; z1, z2 in [0, height]; and t >= 0.
+
+Example tracks declaration:
+
+```
+tracks = {'track0' : [(-0.1, 0.15, 0.23, 0.), (-0.1, -0.13, 0.3)],
+          'track1' : [(0.1, -0.15, 0.1, 5e-7), (0.1, 0.15, 0.05)]}
+```
+
+```angleMode```
+
+```theta```
+
+```phi```
+
+```numPhotonsScale```
 
 #### 3. Overwriting properties
+
+```overwrite```
+
+```overwriteProperties```
+
+#### 4. Default Materials
 
 
 
@@ -162,3 +245,10 @@ for ii in range(len(record['step2']['status']['stopped'][0])):
 
 #### 3. Records
 
+
+
+## Limitations
+
+Assumes MIP
+
+Assumes particle travels at near speed of light (299,792,457 m/s)
