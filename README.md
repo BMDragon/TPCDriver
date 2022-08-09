@@ -83,16 +83,37 @@ Output: A 3-dimensional plot tracing the paths of photons, one at a time. The st
 
 #### 4. FindInfo
 
+This is an information dumper to assist with debugging and/or understanding occurances. As such, it can be easily overhauled and modified to serve the needs of the user. For accurate results, be sure to follow the structure of the [output files](https://github.com/BMDragon/TPCDriver#output-files).
+
+Example 1: ```photon``` and ```step``` are specified by the user, let these equal 2 and 1, respectively. The code will print into the terminal the status of photon 2 at simulation step 1.
+
+```
+dex = record['step'+str(step+1)]['status']['photon'][0].toarray().index(photon)
+for key in record['step'+str(step+1)]['status']:
+    print(key, record['step'+str(step+1)]['status'][key][0][dex])
+```
+
+Example 2: This will scan through all photons in step 2 and print out those that had stopped at the top of the detector in this step.
+
+```
+for ii in range(len(record['step2']['status']['stopped'][0])):
+        if record['step2']['status']['stopped'][0][ii] and \
+           record['step2']['status']['detectortop'][0][ii]:
+            print(record['step2']['status']['photon'][0][ii])
+```
 
 ## Configuration File details
 
 #### 1. New Configuration File Generator
 
 
+
 #### 2. Input values
 
 
+
 #### 3. Overwriting properties
+
 
 
 ## Driver details
@@ -100,25 +121,33 @@ Output: A 3-dimensional plot tracing the paths of photons, one at a time. The st
 #### 1. Unpacking and repackaging values
 
 
+
 #### 2. MATLAB handling
+
 
 
 #### 3. Overwriting material properties
 
 
+
 #### 4. Calls to MATLAB preprocessing
+
 
 
 #### 5. Determining photon distribution
 
 
+
 #### 6. Determining photon starting positions
+
 
 
 #### 7. Running Simulation in MATLAB
 
 
+
 #### 8. Scintillation time delays
+
 
 
 ## Output files
@@ -126,7 +155,10 @@ Output: A 3-dimensional plot tracing the paths of photons, one at a time. The st
 #### 1. Stats
 
 
+
 #### 2. Signals
 
 
+
 #### 3. Records
+
