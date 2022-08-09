@@ -9,8 +9,8 @@ import Driver
 
 ## File paths ##
 saveFolder =      # Folder where to save the data
-saveOptions =      # 0 - do not save anything, 1 - save stats, 
-                 # 2 - save stats and signals, 3 - save stats, signals, and record
+saveOptions =      # 0 - do not save anything, 1 - save record, 
+                 # 2 - save record and signals, 3 - save record, signals, and stats
 
 ## Define chamber parameters ##
 height =      # Distance in m from cathode to anode

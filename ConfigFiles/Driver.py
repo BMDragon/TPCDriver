@@ -278,11 +278,11 @@ def Drive(config):
     # Function for saving the data files
     def saveFiles(case=0):
         if case > 0:
-            np.save(savePath + 'stats', stats)
+            np.save(savePath + 'records', fullRecord)
         if case > 1:
             np.save(savePath + 'signals', signal)
         if case > 2:
-            np.save(savePath + 'records', fullRecord)
+            np.save(savePath + 'stats', stats)
 
     print("Saving files")
     saveFiles(saveData)
