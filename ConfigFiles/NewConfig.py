@@ -1,6 +1,6 @@
 # Created by Brandon Weiss on 7/26/2022
 
-filename = 'Reflect0'     # Only change this
+filename = 'PhysicsRun1'     # Only change this
 
 file = open('./ConfigFiles/' + filename + '.py', 'w')
 file.write('''\
@@ -20,16 +20,16 @@ sipmShiftEfficiency =      # Rate of waveshifting at SiPM
 anodeShiftEfficiency =      # Rate of waveshifting at anode
 
 ## Define detector conditions and materials ##
-detectorType =      # General shape of TPC
-numSides =      # If type is polygonal, how many wall faces will it have (else does not matter)
-layerName =      # Name for the layer (legacy from Tom's MATLAB code)
-isLayerCone =      # Does the layer have a conical shape
-medium =      # Liquid inside the TPC
-mediumState =      # State of matter for this layer
-temperature =      # Temperature of the TPC
+detectorType = 'box'     # General shape of TPC
+numSides = 4     # If type is polygonal, how many wall faces will it have (else does not matter)
+layerName = 'cell'     # Name for the layer (legacy from Tom's MATLAB code)
+isLayerCone = False     # Does the layer have a conical shape
+medium = 'Ar'     # Liquid inside the TPC
+mediumState = 'liquid'     # State of matter for this layer
+temperature = 87.     # Temperature of the TPC
 
 layerWall =      # Material used on the walls of the TPC
-wallShiftType =      # 1 = uniform efficiency, 2 = linear z-graded efficiency
+wallShiftType = 1     # 1 = uniform efficiency, 2 = linear z-graded efficiency
 
 ## Medium information ##
 scatterLengthUV =      # Scattering length for the unshifted light (m)
@@ -38,7 +38,7 @@ absorptionLengthUV =      # Absorption length for the unshifted light
 absorptionLengthShift =      # Absorption length for the shifted light
 
 ## SiPM information ##
-sipmArrangement =      # Arrangement of SiPMs to use
+sipmArrangement = 'simplesquare'     # Arrangement of SiPMs to use
 sipmQeUV =      # Quantum efficiency of the SiPMs for UV (unshifted) light
 sipmQeVis =      # Quantum efficiency of the SiPMs for visible (shifted) light
 sipmSize =      # Size of the SiPMs themselves
@@ -47,7 +47,7 @@ sipmMaterial =      # Material of the SiPMs
 gapMaterial =      # Material of the gaps
 
 ## Anode information ##
-anodeType =      # Type of surface at the anode
+anodeType = 'plate'     # Type of surface at the anode
 anodeMaterial =      # Material of the surface at the anode
 
 ## Sampling stats ##
