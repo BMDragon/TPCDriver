@@ -181,19 +181,36 @@ tracks = {'track0' : [(-0.1, 0.15, 0.23, 0.), (-0.1, -0.13, 0.3)],
           'track1' : [(0.1, -0.15, 0.1, 5e-7), (0.1, 0.15, 0.05)]}
 ```
 
-```angleMode```
+```angleMode``` is a String specifying whether the photons generated have a set starting angle or have a random starting angle. Can have values of either 'random' or 'controlled'.
 
-```theta```
+```theta``` is a float in [0.0, &pi;]. This is the angle from the z-axis.
 
-```phi```
+```phi``` is a float in [0.0, 2&pi;]. This is the angle from the x-axis.
 
-```numPhotonsScale```
+```numPhotonsScale``` is a float > 0. This scales the number of photons generated per m of track. i.e. &gamma;/m = 4,400,000 * numPhotonsScale.
 
 #### 3. Overwriting properties
 
-```overwrite```
+```overwrite``` is a boolean. This states whether or not to override the default material properties as described in the [default materials](https://github.com/BMDragon/TPCDriver#4-default-materials) section below.
 
-```overwriteProperties```
+```overwriteProperties``` is a dictionary of dictionaries of dictionaries. This can be seen as ```{key0 : {key1 : {key2 : value}}}``` where: 
+- key0 is a String specifying the material whose properties are being overwritten, 
+- key1 is a String specifying which property to overwrite, 
+- key2 is an integer either 0 or 1 indicating whether it affects unshifted or shifted light, respectively, and 
+- value is a float in [0.0, 1.0] which is the new value. 
+
+This has only been adapted for reflectivity and diffuse reflection fraction. Any other modifications to material properties should have a different control variable available in the configuration files.
+
+Example: overwrite where the reflectivity of vikuiti is set to 0.0 for the shifted light but remains default for unshifted, the reflectivity of silicon is set to 0.3 for both the unshifted and shifted light, the reflectivity of black is set to 0.2 for the unshifted light and 0.3 for the shifted light, and the diffuse reflection fraction of black is set to 0.0 for the unshifted light and 0.3 for the shifted light.
+
+```
+overwriteProperties = {
+    'vikuitilar' : {'reflectivity' : {1 : 0.0}},
+    'si' : {'reflectivity' : {0 : 0.3, 1 : 0.3}},
+    'black' : {'reflectivity' : {0 : 0.2, 1 : 0.3},
+               'diffusefraction' : {0 : 0.0, 1 : 0.3}}
+}
+```
 
 #### 4. Default Materials
 
