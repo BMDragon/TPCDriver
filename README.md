@@ -219,7 +219,7 @@ This is a list of all the default materials that can be used as well as their pr
 | Material | Name | Reflectivity | Diffuse fraction |
 | :--- | - | :---: | :---: |
 | | | UV &emsp; visible | UV &emsp; visible |
-|
+| | | | |
 | ? | ptfegas | 0.65 &emsp; 0.65 | 1.0 &emsp;  1.0 |
 | ? | ptfeliquid | 0.98 &emsp; 0.99 | 1.0 &emsp; 1.0 |
 | ? | spectralon | 0.73 &emsp; 0.985 | 1.0 &emsp; 1.0 |
