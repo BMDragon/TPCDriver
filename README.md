@@ -199,7 +199,7 @@ tracks = {'track0' : [(-0.1, 0.15, 0.23, 0.), (-0.1, -0.13, 0.3)],
 - key2 is an integer either 0 or 1 indicating whether it affects unshifted or shifted light, respectively, and 
 - value is a float in [0.0, 1.0] which is the new value. 
 
-This has only been adapted for reflectivity and diffuse reflection fraction. Any other modifications to material properties should have a different control variable available in the configuration files.
+This has only been adapted for reflectivity and diffuse reflection fraction. Any other modifications to material properties should have a different control variable available in the configuration files. Also, be sure not to repeat keys as that may affect which properties get stored in the dictionary (follow the format shown in the example below).
 
 Example: overwrite where the reflectivity of vikuiti is set to 0.0 for the shifted light but remains default for unshifted, the reflectivity of silicon is set to 0.3 for both the unshifted and shifted light, the reflectivity of black is set to 0.2 for the unshifted light and 0.3 for the shifted light, and the diffuse reflection fraction of black is set to 0.0 for the unshifted light and 0.3 for the shifted light.
 
@@ -214,7 +214,33 @@ overwriteProperties = {
 
 #### 4. Default Materials
 
+This is a list of all the default materials that can be used as well as their properties. Some of these values may be guesses and/or inaccurate. If a change to these values is desired, they can be modified in LightGuide/CoreRoutines/Definitions/DefaultMaterials.m, and then please change the values in this table accordingly.
 
+| Material | Name | Reflectivity | Diffuse fraction |
+| :--- | - | :---: | :---: |
+| | | UV &emsp; visible | UV &emsp; visible |
+|
+| ? | ptfegas | 0.65 &emsp; 0.65 | 1.0 &emsp;  1.0 |
+| ? | ptfeliquid | 0.98 &emsp; 0.99 | 1.0 &emsp; 1.0 |
+| ? | spectralon | 0.73 &emsp; 0.985 | 1.0 &emsp; 1.0 |
+| Vikuiti | vikuitilar | 0.0 &emsp; 0.98 | 0.0 &emsp; 0.0 |
+| ? | cirlex | 0.0 &emsp; 0.0 | 0.7 &emsp; 0.7 |
+| Silver | ag | 0.2 &emsp; 0.7 | 0.5 &emsp; 0.5 |
+| Aluminum | al | 0.5 &emsp; 0.95 | 0.8 &emsp; 0.8 |
+| ? | alflash | 0.88 &emsp; 0.95 | 0.0 &emsp; 0.0 |
+| ? | almgf2 | 0.88 &emsp; 0.95 | 0.0 &emsp; 0.0 |
+| ? | becu | 0.1 &emsp; 0.7 | 0.3 &emsp; 0.3 |
+| Gold | au | 0.85 &emsp; 0.4 | 0.3 &emsp; 0.3 |
+| ? | ss | 0.1 &emsp; 0.7 | 0.3 &emsp; 0.3 |
+| ? | ssbody | 0.1 &emsp; 0.7 | 0.1 &emsp; 0.1 |
+| ? | sswireliquid | 0.1 &emsp; 0.7 | 0.3 &emsp; 0.3 |
+| ? | sswiregas | 0.1 &emsp; 0.7 | 0.3 &emsp; 0.3 |
+| ? | csi | 0.88 &emsp; 0.9 | 0.5 &emsp; 0.5 |
+| Silicon | si | 0.2 &emsp; 0.0 | 0.0 &emsp; 0.0 |
+| ? | agbare | 0.5 &emsp; 0.8 | 0.1 &emsp; 0.1 |
+| Black | black | 0.0 &emsp; 0.0 | 0.0 &emsp; 0.0 |
+| PMT window | pmtwindow | 0.0 &emsp; 0.0 | 0.0 &emsp; 0.0 |
+| Nothing | nada | 0.0 &emsp; 0.0 | 0.0 &emsp; 0.0 |
 
 ## Driver details
 
