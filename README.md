@@ -268,7 +268,7 @@ The code first determines the rate at which to generate photons based on the ```
 
 #### 6. Determining photon starting positions
 
-Before determining the photon starting positions, the code asserts that the track is contained within the TPC (including borders). Then for each track, it evely distributes the allocated photons along the track through the following formula where $d$ is the index of a photon within its track: $r_{x, y, z} = d\frac{\textrm{End}_{x,y,z}-\textrm{Start}_{x,y,z}}{\textrm{\# of photons for this track}} + \textrm{Start}_{x,y,z}$
+Before determining the photon starting positions, the code asserts that the track is contained within the TPC (including borders). Then for each track, it evely distributes the allocated photons along the track through the following formula where $d$ is the index of a photon within its track: $r_{x, y, z} = d\frac{\textrm{End}_{x,y,z}-\textrm{Start}_{x,y,z}}{\textrm{\# of photons for this track}} + \textrm{Start}_{x, y, z}$
 
 #### 7. Running Simulation in MATLAB
 
