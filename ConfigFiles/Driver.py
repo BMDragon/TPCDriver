@@ -266,7 +266,7 @@ def Drive(config):
         trackKey = list(tracks.keys())[trackDex]
         tStart = tracks[trackKey][0][3]
         tEnd = endTimes[trackDex]
-        timeStamp = (gDex-startDex)*(tStart-tEnd)/photonDistro[trackDex] + tStart
+        timeStamp = (gDex-startDex)*(tEnd-tStart)/photonDistro[trackDex] + tStart
         if rng.random() < alpha:
             timeStamp += np.random.exponential(shortTau)
         else:
