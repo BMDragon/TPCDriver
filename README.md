@@ -168,7 +168,7 @@ All these values get packaged into a python dictionary before calling the driver
 
 ```gapMaterial``` is a String specifying the material of the gaps in the cathode. The available options are described in the [default materials](https://github.com/BMDragon/TPCDriver#4-default-materials) section below.
 
-```anodeType``` is a String specifying the type of surface of the anode. Default ```'plate'```.
+```anodeType``` is a String specifying the type of surface of the anode. Can be 'plate' or 'chargepcb'. Default ```'plate'```.
 
 ```anodeMaterial``` is a String specifying the material of the anode. The available options are described in the [default materials](https://github.com/BMDragon/TPCDriver#4-default-materials) section below.
 
@@ -246,35 +246,43 @@ This is a list of all the default materials that can be used as well as their pr
 
 #### 1. Unpacking and repackaging values
 
+Reminder that line six (variable ```dataPath```) should be set to the MATLAB code path.
 
+When unpacking the values from the configuration file, this script first checks if the field is in the config dictionary. Otherwise, it will throw an AssertionError with the message "Please make sure config has the field [fieldname]".
 
 #### 2. MATLAB handling
 
-
+The variable ```eng``` is the MATLAB engine started by a call to the API.
 
 #### 3. Overwriting material properties
 
-
+The nested for loops in the ```detector['materials']``` section are designed to be able to overwrite the reflectivity or diffusefraction properties of materials. If a change in the implementation and/or generalization is desired, this would be the place to do so.
 
 #### 4. Calls to MATLAB preprocessing
 
-
+The Driver makes calls to several MATLAB scripts in order to complete the simulation setup: DefaultMaterials.m, DefineSiPMPlane2.m, and ConstructDetector.m.
 
 #### 5. Determining photon distribution
 
-
+The code first determines the rate at which to generate photons based on the ```numPhotonsScale``` variable. Assuming that it equals 1, the standard photon generation assumes a minimum ionizing particle (MIP), and so assumes that 20,000 photons are generated per MeV of energy loss and that the particle loses 2.2 MeV per centimeter. Therefore, the code assumes 4,400,000 photons are produced per meter. Based on this number and the track length, the code generates photons for each track.
 
 #### 6. Determining photon starting positions
 
-
+Before determining the photon starting positions, the code asserts that the track is contained within the TPC (including borders). Then for each track, it evely distributes the allocated photons along the track through the following formula where $$d$$ is the index of a photon within its track: $$r_{x, y, z} = d\frac{\textrm{End}_{x,y,z}-\textrm{Start}_{x,y,z}}{\textrm{\# of photons for this track}} + \textrm{Start}_{x,y,z}$$ 
 
 #### 7. Running Simulation in MATLAB
 
+The script calls InitializePhotons.m and then PhotonFollower.m to run the simulation. This returns ```stats```, ```signal```, and ```fullRecord``` which are descibed below in [output files](https://github.com/BMDragon/TPCDriver#output-files).
 
+#### 8. Time delays
 
-#### 8. Scintillation time delays
+First, the code defines several constants (assumptions):
+- ```alpha```: a float in [0.0, 1.0]. It is the rate at which photons take the scintillation path with a short &tau;. This is currently set to a value of ```0.3```. 
+- ```shortTau```: a float > 0. This is the &tau; in seconds for the short time scintillation path, currently set to a value of ```6e-9``` = 6 ns.
+- ```longTau```: a float > 0. This is the &tau; in seconds for the long time scintillation path, currently set to a value of ```1.6e-6``` = 1.6 &mu;s.
+- ```randSeed```: an integer that sets the seed value for the random number generator.
 
-
+For each photon, the code will add two different time delays: particle travel time and time of scintillation. The code assumes that the ionizing particle travels near the speed of light (at c - 1 = 299,792,457 m/s). 
 
 ## Output files
 
@@ -290,8 +298,12 @@ This is a list of all the default materials that can be used as well as their pr
 
 
 
-## Limitations
+## Limitations and assumptions
 
-Assumes MIP
+Assumes minimum ionizing particle (MIP), and so has a fixed photons per meter in the Driver.
 
-Assumes particle travels at near speed of light (299,792,457 m/s)
+Assumes particle travels at near speed of light (c - 1 = 299,792,457 m/s).
+
+Assumes &tau; for both scintillation paths (6 ns and 1.6 &mu;s).
+
+Since the code is very memory intensive, realistic simulations with a large number of photons may not compile properly as they would exceed the API's available memory usage.
