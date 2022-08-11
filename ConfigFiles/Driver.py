@@ -243,7 +243,7 @@ def Drive(config):
 
     # Implement scintillation time delays
     alpha = 0.3
-    shortTau = 1e-9
+    shortTau = 6e-9
     longTau = 1.6e-6
     randSeed = 314
     rng = np.random.default_rng(randSeed)
