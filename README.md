@@ -268,7 +268,7 @@ The code first determines the rate at which to generate photons based on the ```
 
 #### 6. Determining photon starting positions
 
-Before determining the photon starting positions, the code asserts that the track is contained within the TPC (including borders). Then for each track, it evely distributes the allocated photons along the track through the following formula where $d$ is the index of a photon within its track: $$r_{x,y,z}=d\frac{\textrm{End}_{x,y,z}}{2}$$ $r_{x, y, z} = d\frac{\textrm{End}_{x,y,z}-\textrm{Start}_{x,y,z}}{\textrm{\# of photons for this track}} + \textrm{Start}_{x, y, z}$
+Before determining the photon starting positions, the code asserts that the track is contained within the TPC (including borders). Then for each track, it evely distributes the allocated photons along the track through the following formula where $d$ is the index of a photon within its track: $$r_{x, y, z} = d\frac{End_{x,y,z}-Start_{x,y,z}}{\textrm{\# of photons for this track}} + Start_{x, y, z}$$
 
 #### 7. Running Simulation in MATLAB
 
@@ -282,7 +282,7 @@ First, the code defines several constants (assumptions):
 - ```longTau```: a float > 0. This is the &tau; in seconds for the long time scintillation path, currently set to a value of ```1.6e-6``` = 1.6 &mu;s.
 - ```randSeed```: an integer that sets the seed value for the random number generator.
 
-For each photon, the code will add two different time delays: particle travel time and time of scintillation. The code assumes that the ionizing particle travels near the speed of light (at c - 1 = 299,792,457 m/s). Thus, it calculates particle travel time delay with the following formula where $d$ is the index of a photon within its track: $t_{\textrm{travel}} = d\frac{\textrm{TrackLength}/(c-1) - t_{\textrm{TrackStart}}}{\textrm{\# of photons for this track}} + t_{\textrm{TrackStart}}$.
+For each photon, the code will add two different time delays: particle travel time and time of scintillation. The code assumes that the ionizing particle travels near the speed of light (at c - 1 = 299,792,457 m/s). Thus, it calculates particle travel time delay with the following formula where $d$ is the index of a photon within its track: $$t_{\textrm{travel}} = d\frac{\textrm{TrackLength}/(c-1) - t_{\textrm{TrackStart}}}{\textrm{\# of photons for this track}} + t_{\textrm{TrackStart}}$$.
 
 ## Output files
 
