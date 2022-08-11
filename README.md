@@ -282,7 +282,7 @@ First, the code defines several constants (assumptions):
 - ```longTau```: a float > 0. This is the &tau; in seconds for the long time scintillation path, currently set to a value of ```1.6e-6``` = 1.6 &mu;s.
 - ```randSeed```: an integer that sets the seed value for the random number generator.
 
-For each photon, the code will add two different time delays: particle travel time and time of scintillation. The code assumes that the ionizing particle travels near the speed of light (at c - 1 = 299,792,457 m/s). Thus, it calculates particle travel time delay with the following formula where $d$ is the index of a photon within its track: $$t_{\textrm{travel}} = d\frac{\textrm{TrackLength}/(c-1) - t_{\textrm{TrackStart}}}{\textrm{No. of photons for this track}} + t_{\textrm{TrackStart}}$$.
+For each photon, the code will add two different time delays: particle travel time and time of scintillation. The code assumes that the ionizing particle travels near the speed of light (at c - 1 = 299,792,457 m/s). Thus, it calculates particle travel time delay with the following formula where $d$ is the index of a photon within its track: $$t_{\textrm{travel}} = d\frac{\textrm{TrackLength}/(c-1) - t_{\textrm{TrackStart}}}{\textrm{No. of photons for this track}} + t_{\textrm{TrackStart}}$$
 
 Next, the code adds a scintillation delay to each photon's time stamp. This uses numpy.random.exponential(&tau;) which draws a sample from an exponential distribution. The probability density function is given by $$f(t;\frac{1}{\tau})=\frac{1}{\tau}\textrm{exp}(-\frac{t}{\tau})$$. The code also uses a random number generator to determine whether the photon is from the short &tau; or the long &tau; scintillation paths.
 
