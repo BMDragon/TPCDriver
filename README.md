@@ -284,21 +284,104 @@ First, the code defines several constants (assumptions):
 
 For each photon, the code will add two different time delays: particle travel time and time of scintillation. The code assumes that the ionizing particle travels near the speed of light (at c - 1 = 299,792,457 m/s). Thus, it calculates particle travel time delay with the following formula where $d$ is the index of a photon within its track: $$t_{\textrm{travel}} = d\frac{\textrm{TrackLength}/(c-1) - t_{\textrm{TrackStart}}}{\textrm{No. of photons for this track}} + t_{\textrm{TrackStart}}$$
 
-Next, the code adds a scintillation delay to each photon's time stamp. This uses numpy.random.exponential(&tau;) which draws a sample from an exponential distribution. The probability density function is given by $$f(t;\frac{1}{\tau})=\frac{1}{\tau}\textrm{exp}(-\frac{t}{\tau})$$. The code also uses a random number generator to determine whether the photon is from the short &tau; or the long &tau; scintillation paths.
+Next, the code adds a scintillation delay to each photon's time stamp. This uses numpy.random.exponential(&tau;) which draws a sample from an exponential distribution. The probability density function is given by $$f(t;\frac{1}{\tau})=\frac{1}{\tau}\textrm{exp}(-\frac{t}{\tau})$$ The code also uses a random number generator to determine whether the photon is from the short &tau; or the long &tau; scintillation paths.
 
 ## Output files
 
 #### 1. Stats
 
-ah
+Stats is generally the cumulative statistics of what occured in the simulation. Within stats are the following fields:
+- numphotons- an integer
+- layers
+    - stops
+        - middle- an integer
+        - wall- an integer
+        - bottomgrid- an integer
+        - topgrid- an integer
+        - bottomoverhang- an integer
+        - topoverhang- an integer
+        - detectorbottom- an integer
+        - detectortop- an integer
+    - scatters 
+        - (same subfields as stats.layers.stops)
+- readout
+    - bottom
+        - stops
+            - array- an integer
+            - gap- an integer
+            - pe- an integer
+        - scatters
+            - (same subfields as stats.readout.bottom.stops)
+        - signal- an array
+    - top
+        - stops
+            - plate- an integer
+        - scatters
+            - plate- an integer
+- meanpathlength- a float
+- meantime- a float
 
 #### 2. Signals
 
-
+Signals is generally about the photons that made a signal at a SiPM. Within signals are the following fields:
+- r- an array with 3 rows (SiPM position)
+- numsteps- an array
+- pathlength- an array
+- time- an array
+- bottom
+    - num- an array
+    - pe- an array
+- photon- an array
 
 #### 3. Records
 
-
+This is a data intensive file that keeps track of everything that happened in the simulation; possibly the most important of all the output files. Within record are the following fields:
+- step1 (step of photon generation)
+    - s
+        - r- an array with 3 rows (position)
+        - s- an array with 3 rows (direction)
+        - n- an array with 3 rows (normal vector to surface)
+        - l- an array with 3 rows (distance travelled)
+        - k- an array (index of face for polygonal geometries)
+        - nl- an array (layer)
+    - status (all inside are arrays)
+        - photon
+        - layer
+        - stopped
+        - middle
+        - absorb
+        - scatter
+        - refractback
+        - refractthrough
+        - shifted
+        - diffusereflect
+        - specularreflect
+        - layerchange
+        - surface
+        - wall
+        - bottom
+        - top
+        - bottomgrid
+        - topgrid
+        - bottomoverhang
+        - topoverhang
+        - detectorbottom
+        - detectortop
+        - numsteps
+        - pathlength
+        - time
+    - readoutstatus
+        - bottom
+            - array- an array
+            - gap- an array
+            - num- an array
+            - pe- an array
+        - top
+            - plate- an array
+- step2
+    - (same substructure as records.step1)
+- ...
+- step n
 
 ## Limitations and assumptions
 
